@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<script src="https://d3js.org/d3.v4.min.js"></script>
-<link href="css/d3.css" rel="stylesheet">
+<!-- Use local copy of d3 if necessary -->
+<script src="https://d3js.org/d3.v4.min..js"></script>
+<script>
+  if (typeof(d3) === "undefined") {
+    document.write("<script src='js/d3.v4.min.js'><\/script>")
+  }
+</script>
+
 
 <head>
   <meta charset="utf-8">
-  <title>wave-architect</title>
+  <title>probot</title>
 </head>
 
 <body>
