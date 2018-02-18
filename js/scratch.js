@@ -52,7 +52,7 @@ function download(obj, type) {
   json_data.click();
 }
 
-// Set up instrument id generator
+// Set up row id generator
 var inst_id = 0
 
 // Add rows to table

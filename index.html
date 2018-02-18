@@ -2,7 +2,7 @@
 <html lang="en">
 
 <!-- Use local copy of d3 if necessary -->
-<script src="https://d3js.org/d3.v4.min..js"></script>
+<!-- <script src="https://d3js.org/d3.v4.min..js"></script> -->
 <script>
   if (typeof(d3) === "undefined") {
     document.write("<script src='js/d3.v4.min.js'><\/script>")
@@ -12,12 +12,43 @@
 
 <head>
   <meta charset="utf-8">
-  <title>probot</title>
+  <title>space-probe</title>
 </head>
 
 <body>
 
+  <!-- Import JSON -->
+  <input type="file" id="selectFiles" value="Import" /><br />
+  <button id="import">Import</button>
+  <textarea id="result">
+  </textarea>
+
+  <!-- Export JSON -->
+  <br>
+  <button id="export" onclick="download(config, 'text/plain')">Export</button>
+
+
+  <div>
+    <table id="instrumentsTable">
+      <tr>
+        <td>
+          Location name:
+        </td>
+        <td>
+          Prototype depth (m):
+        </td>
+      </tr>
+      <tr id="last_row">
+        <td>
+          <button onclick="addInstrument(this.id)">+</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+
 </body>
 <script src="js/canvas.js"></script>
+<script src="js/scratch.js"></script>
+<script src="js/import.js"></script>
 
 </html>
