@@ -61,13 +61,13 @@ function addLayout() {
   last_row = document.getElementById('layoutsLastRow');
   row = document.createElement('tr');
   last_row.parentNode.insertBefore(row, last_row);
-  row.id = "layout_" + layout_id;
+  row.id = 'layout_' + layout_id;
   layout_id += 1;
   layout = row.insertCell();
-  layout.innerHTML = "<input type='text' value='new_layout'>";
+  layout.innerHTML = '<input type="text" value="new_layout">';
   btn = row.insertCell();
   btn.innerHTML = "<button onclick='removeTableRow(this.parentNode.parentNode.id)'>-</button>";
-  document.body.insertBefore(table, document.getElementById('layoutsTable'));
+  document.body.appendChild(table);
 }
 
 // Set up row id generator
@@ -79,25 +79,27 @@ function addInstrument() {
   last_row = document.getElementById('instrumentsLastRow');
   row = document.createElement('tr');
   last_row.parentNode.insertBefore(row, last_row);
-  row.id = "inst_" + inst_id;
+  row.id = 'inst_' + inst_id;
   inst_id += 1;
-  layout = row.insertCell();
-  layout.innerHTML = "<select type='text' value='new_location'>";
 
-  // for (var i = min; i <= max; i++) {
-  //   var opt = document.createElement('option');
-  //   opt.value = i;
-  //   opt.innerHTML = i;
-  //   select.appendChild(opt);
-  // }
+  layout = row.insertCell();
+  select = document.createElement('select')
+  layout.appendChild(select)
+
+  for (var i = 0; i <= 9; i++) {
+    var opt = document.createElement('option');
+    opt.value = i;
+    opt.innerHTML = i;
+    select.appendChild(opt);
+  }
 
   loc = row.insertCell();
   loc.innerHTML = "<input type='text' value='new_location'>";
   depth = row.insertCell();
   depth.innerHTML = "<input type='text' value='0'>";
   btn = row.insertCell();
-  btn.innerHTML = "<button onclick='removeTableRow(this.parentNode.parentNode.id)'>-</button>";
-  document.body.insertBefore(table, document.getElementById('instrumentsTable'));
+  btn.innerHTML = '<button onclick="removeTableRow(this.parentNode.parentNode.id)">-</button>';
+  document.body.appendChild(table);
 }
 
 
