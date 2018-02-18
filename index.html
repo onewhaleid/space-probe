@@ -29,7 +29,19 @@
 
 
   <div>
-    <table id="instrumentsTable">
+    <table id="layoutsTable" style="float: left">
+      <tr>
+        <td>
+          Layout name:
+        </td>
+      </tr>
+      <tr id="layoutsLastRow">
+        <td>
+          <button onclick="addLayout(this.id)">+</button>
+        </td>
+      </tr>
+    </table>
+    <table id="instrumentsTable" style="float: left">
       <tr>
         <td>
           Location name:
@@ -38,7 +50,7 @@
           Prototype depth (m):
         </td>
       </tr>
-      <tr id="last_row">
+      <tr id="instrumentsLastRow">
         <td>
           <button onclick="addInstrument(this.id)">+</button>
         </td>

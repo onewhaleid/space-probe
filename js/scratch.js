@@ -53,27 +53,56 @@ function download(obj, type) {
 }
 
 // Set up row id generator
+var layout_id = 0
+
+// Add rows to table
+function addLayout() {
+  table = document.getElementById('layoutsTable');
+  last_row = document.getElementById('layoutsLastRow');
+  row = document.createElement('tr');
+  last_row.parentNode.insertBefore(row, last_row);
+  row.id = "layout_" + layout_id;
+  layout_id += 1;
+  layout = row.insertCell();
+  layout.innerHTML = "<input type='text' value='new_layout'>";
+  btn = row.insertCell();
+  btn.innerHTML = "<button onclick='removeTableRow(this.parentNode.parentNode.id)'>-</button>";
+  document.body.insertBefore(table, document.getElementById('layoutsTable'));
+}
+
+// Set up row id generator
 var inst_id = 0
 
 // Add rows to table
 function addInstrument() {
   table = document.getElementById('instrumentsTable');
-  last_row = document.getElementById('last_row');
+  last_row = document.getElementById('instrumentsLastRow');
   row = document.createElement('tr');
   last_row.parentNode.insertBefore(row, last_row);
   row.id = "inst_" + inst_id;
   inst_id += 1;
+  layout = row.insertCell();
+  layout.innerHTML = "<select type='text' value='new_location'>";
+
+  // for (var i = min; i <= max; i++) {
+  //   var opt = document.createElement('option');
+  //   opt.value = i;
+  //   opt.innerHTML = i;
+  //   select.appendChild(opt);
+  // }
+
   loc = row.insertCell();
   loc.innerHTML = "<input type='text' value='new_location'>";
   depth = row.insertCell();
   depth.innerHTML = "<input type='text' value='0'>";
   btn = row.insertCell();
-  btn.innerHTML = "<button onclick='removeInstrument(this.parentNode.parentNode.id)'>-</button>";
-  document.body.appendChild(table);
+  btn.innerHTML = "<button onclick='removeTableRow(this.parentNode.parentNode.id)'>-</button>";
+  document.body.insertBefore(table, document.getElementById('instrumentsTable'));
 }
 
+
 // Remove rows from table
-function removeInstrument(id) {
+function removeTableRow(id) {
   console.log(document.getElementById(id))
   document.getElementById(id).remove()
 }
