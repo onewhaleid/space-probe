@@ -5,10 +5,9 @@
 <!-- <script src="https://d3js.org/d3.v4.min..js"></script> -->
 <script>
   if (typeof(d3) === "undefined") {
-    document.write("<script src='js/d3.v4.min.js'><\/script>")
+    document.write("<script src='js/d3.v4.min.js'><\/script>");
   }
 </script>
-
 
 <head>
   <meta charset="utf-8">
@@ -18,14 +17,33 @@
 <body>
 
   <!-- Import JSON -->
-  <input type="file" id="selectFiles" value="Import" /><br />
-  <button id="import">Import</button>
-  <textarea id="result">
+  <div>
+    <input type="file" id="selectJson" value="Import">
+  </div>
+  <div>
+    <button id="importJson">Import</button>
+  </div>
+  <div>
+    <textarea id="dataJson">
   </textarea>
+  </div>
 
   <!-- Export JSON -->
-  <br>
-  <button id="export" onclick="download(config, 'text/plain')">Export</button>
+  <div>
+    <button id="export" onclick="download(config, 'text/plain')">Export</button>
+  </div>
+
+  <!-- Import csv -->
+  <div>
+    <input type="file" id="selectCsv" value="Import">
+  </div>
+  <div>
+    <button id="importCsv">Import</button>
+  </div>
+  <div>
+    <textarea id="dataCsv">
+  </textarea>
+  </div>
 
 
   <div>

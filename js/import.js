@@ -1,6 +1,6 @@
 // Import JSON data
-document.getElementById('import').onclick = function() {
-  var files = document.getElementById('selectFiles').files;
+document.getElementById('importJson').onclick = function() {
+  var files = document.getElementById('selectJson').files;
   if (files.length <= 0) {
     return false;
   }
@@ -10,8 +10,7 @@ document.getElementById('import').onclick = function() {
   reader.onload = function(f) {
     var result = JSON.parse(f.target.result);
     var formatted = JSON.stringify(result, null, 2);
-    document.getElementById('result').value = formatted;
-    console.log(result);
+    document.getElementById('dataJson').value = formatted;
   }
   reader.readAsText(files.item(0));
 };

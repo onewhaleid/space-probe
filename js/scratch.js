@@ -61,13 +61,19 @@ function addLayout() {
   last_row = document.getElementById('layoutsLastRow');
   row = document.createElement('tr');
   last_row.parentNode.insertBefore(row, last_row);
+
   row.id = 'layout_' + layout_id;
+  row.className = 'layout';
   layout_id += 1;
   layout = row.insertCell();
-  layout.innerHTML = '<input type="text" value="new_layout">';
+  input = document.createElement('input');
+  input.type = 'text';
+  input.value = row.id;
+  layout.appendChild(input);
+
+  // Add delete button
   btn = row.insertCell();
   btn.innerHTML = "<button onclick='removeTableRow(this.parentNode.parentNode.id)'>-</button>";
-  document.body.appendChild(table);
 }
 
 // Set up row id generator
@@ -86,20 +92,25 @@ function addInstrument() {
   select = document.createElement('select')
   layout.appendChild(select)
 
-  for (var i = 0; i <= 9; i++) {
+  // Get layout rows
+  layouts = document.getElementsByClassName('layout')
+  for (var i = 0; i < layouts.length; i++) {
     var opt = document.createElement('option');
-    opt.value = i;
-    opt.innerHTML = i;
+    opt.value = layouts[i].id;
+    opt.innerHTML = layouts[i].querySelector('input').value;
     select.appendChild(opt);
   }
 
   loc = row.insertCell();
-  loc.innerHTML = "<input type='text' value='new_location'>";
+  input = document.createElement('input');
+  input.type = 'text';
+  input.value = row.id;
+  loc.appendChild(input);
+
   depth = row.insertCell();
   depth.innerHTML = "<input type='text' value='0'>";
   btn = row.insertCell();
   btn.innerHTML = '<button onclick="removeTableRow(this.parentNode.parentNode.id)">-</button>';
-  document.body.appendChild(table);
 }
 
 
