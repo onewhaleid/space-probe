@@ -76,6 +76,10 @@ function addLayout() {
   btn.innerHTML = "<button onclick='removeTableRow(this.parentNode.parentNode.id)'>-</button>";
 }
 
+function createLayoutSelect(){
+  
+}
+
 // Set up row id generator
 var inst_id = 0
 
@@ -89,11 +93,12 @@ function addInstrument() {
   inst_id += 1;
 
   layout = row.insertCell();
-  select = document.createElement('select')
-  layout.appendChild(select)
+  select = document.createElement('select');
+  select.className = 'layoutSelect';
+  layout.appendChild(select);
 
   // Get layout rows
-  layouts = document.getElementsByClassName('layout')
+  layouts = document.getElementsByClassName('layout');
   for (var i = 0; i < layouts.length; i++) {
     var opt = document.createElement('option');
     opt.value = layouts[i].id;
