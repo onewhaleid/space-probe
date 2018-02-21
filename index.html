@@ -48,50 +48,57 @@
   </div>
 
 
-  <div>
-    <table id="layoutsTable">
-      <tr>
-        <td>
-          Layout name:
-        </td>
-      </tr>
-      <tr id="layoutsLastRow">
-        <td>
-          <button onclick="addLayout(this.id)">+</button>
-        </td>
-      </tr>
-    </table>
-  </div>
-  <div>
-    <table id="instrumentsTable">
-      <tr>
-        <td>
-          Layout:
-        </td>
-        <td>
-          Location name:
-        </td>
-        <td>
-          Elevation (m):
-        </td>
-        <td>
-          Chainage (m):
-        </td>
-      </tr>
-      <tr id="instrumentsLastRow">
-        <td>
-          <button onclick="addInstrument(this.id)">+</button>
-        </td>
-      </tr>
-    </table>
+  <div class="container">
+    <div class="tablegroup">
+      <h3>
+        Layouts
+      </h3>
+      <table id="layoutsTable">
+        <tr>
+          <td>
+            Layout name:
+          </td>
+        </tr>
+        <tr id="layoutsLastRow">
+          <td>
+            <button onclick="addLayout(this.id)">+</button>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="tablegroup">
+      <h3>
+        Instruments
+      </h3>
+      <table id="instrumentsTable">
+        <tr>
+          <td>
+            Layout:
+          </td>
+          <td>
+            Location name:
+          </td>
+          <td>
+            Elevation (m):
+          </td>
+          <td>
+            Chainage (m):
+          </td>
+        </tr>
+        <tr id="instrumentsLastRow">
+          <td>
+            <button onclick="addInstrument(this.id)">+</button>
+          </td>
+        </tr>
+      </table>
+    </div>
   </div>
 
 </body>
 <script src="js/canvas.js"></script>
 <script src="js/scratch.js"></script>
-<script src="js/import.js"></script>
 
 <script src="js/d3_interpolate.js"></script>
-
+<link href="css/custom.css" rel="stylesheet">
 
 </html>

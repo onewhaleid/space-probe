@@ -74,10 +74,22 @@ function addLayout() {
   // Add delete button
   btn = row.insertCell();
   btn.innerHTML = "<button onclick='removeTableRow(this.parentNode.parentNode.id)'>-</button>";
+
+  // Update select fields in instrument definitions
+  instrument_rows = document.getElementsByClassName('layoutSelect');
+
+  // createLayoutSelect(target_select)
 }
 
-function createLayoutSelect(){
-  
+function createLayoutSelect(target_select){
+  // Get layout rows
+  layouts = document.getElementsByClassName('layout');
+  for (var i = 0; i < layouts.length; i++) {
+    var opt = document.createElement('option');
+    opt.value = layouts[i].id;
+    opt.innerHTML = layouts[i].querySelector('input').value;
+    target_select.appendChild(opt);
+  }
 }
 
 // Set up row id generator
@@ -97,14 +109,7 @@ function addInstrument() {
   select.className = 'layoutSelect';
   layout.appendChild(select);
 
-  // Get layout rows
-  layouts = document.getElementsByClassName('layout');
-  for (var i = 0; i < layouts.length; i++) {
-    var opt = document.createElement('option');
-    opt.value = layouts[i].id;
-    opt.innerHTML = layouts[i].querySelector('input').value;
-    select.appendChild(opt);
-  }
+  createLayoutSelect(select)
 
   loc = row.insertCell();
   input = document.createElement('input');
@@ -124,3 +129,7 @@ function removeTableRow(id) {
   console.log(document.getElementById(id))
   document.getElementById(id).remove()
 }
+
+// Add one layout and instrument
+addLayout()
+addInstrument()
