@@ -56,7 +56,7 @@ function download(obj, type) {
 var layout_id = 0
 
 // Add rows to table
-function addLayout() {
+function addLayout(layout_name) {
   table = document.getElementById('layoutsTable');
   last_row = document.getElementById('layoutsLastRow');
   row = document.createElement('tr');
@@ -67,9 +67,14 @@ function addLayout() {
   layout_id += 1;
   layout = row.insertCell();
   input = document.createElement('input');
-  input.type = 'text';
-  input.value = row.id;
   layout.appendChild(input);
+  input.type = 'text';
+
+  if (layout_name === "") {
+    input.value = row.id;
+  } else {
+    input.value = layout_name;
+  }
 
   // Add delete button
   btn = row.insertCell();
@@ -81,7 +86,7 @@ function addLayout() {
   // createLayoutSelect(target_select)
 }
 
-function createLayoutSelect(target_select){
+function createLayoutSelect(target_select) {
   // Get layout rows
   layouts = document.getElementsByClassName('layout');
   for (var i = 0; i < layouts.length; i++) {
@@ -96,7 +101,7 @@ function createLayoutSelect(target_select){
 var inst_id = 0
 
 // Add rows to table
-function addInstrument() {
+function addInstrument(location_name) {
   table = document.getElementById('instrumentsTable');
   last_row = document.getElementById('instrumentsLastRow');
   row = document.createElement('tr');
@@ -114,7 +119,13 @@ function addInstrument() {
   loc = row.insertCell();
   input = document.createElement('input');
   input.type = 'text';
-  input.value = row.id;
+
+  if (location_name === "") {
+    input.value = row.id;
+  } else {
+    input.value = location_name;
+  }
+
   loc.appendChild(input);
 
   depth = row.insertCell();
@@ -131,5 +142,6 @@ function removeTableRow(id) {
 }
 
 // Add one layout and instrument
-addLayout()
-addInstrument()
+addLayout('wave climate calibration')
+addInstrument('offshore')
+addInstrument('structure')
