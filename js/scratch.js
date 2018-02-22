@@ -143,9 +143,10 @@ function updateConfig() {
     var layout_id = old_select.value;
     createLayoutSelect(old_select)
 
-    // if (layout_id) {
-    //   old_select.value = layout_id;
-    // }
+    // Remember current value
+    if (layout_id) {
+      old_select.value = layout_id;
+    }
   }
 }
 
