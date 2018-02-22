@@ -81,14 +81,13 @@ function addLayout(layout_name) {
   btn.innerHTML = "<button onclick='removeTableRow(this.parentNode.parentNode.id)'>-</button>";
 
   // Update select fields in instrument definitions
-  instrument_rows = document.getElementsByClassName('layoutSelect');
-
-  // createLayoutSelect(target_select)
+  updateConfig()
 }
 
 function createLayoutSelect(target_select) {
   // Get layout rows
-  layouts = document.getElementsByClassName('layout');
+  var layouts = document.getElementsByClassName('layout');
+  target_select.innerHTML = '';
   for (var i = 0; i < layouts.length; i++) {
     var opt = document.createElement('option');
     opt.value = layouts[i].id;
@@ -102,22 +101,23 @@ var inst_id = 0
 
 // Add rows to table
 function addInstrument(location_name) {
-  table = document.getElementById('instrumentsTable');
-  last_row = document.getElementById('instrumentsLastRow');
-  row = document.createElement('tr');
+  var table = document.getElementById('instrumentsTable');
+  var last_row = document.getElementById('instrumentsLastRow');
+  var row = document.createElement('tr');
   last_row.parentNode.insertBefore(row, last_row);
   row.id = 'inst_' + inst_id;
+  row.className = 'instrument';
   inst_id += 1;
 
-  layout = row.insertCell();
-  select = document.createElement('select');
+  var layout = row.insertCell();
+  var select = document.createElement('select');
   select.className = 'layoutSelect';
   layout.appendChild(select);
 
   createLayoutSelect(select)
 
-  loc = row.insertCell();
-  input = document.createElement('input');
+  var loc = row.insertCell();
+  var input = document.createElement('input');
   input.type = 'text';
 
   if (location_name === "") {
@@ -128,17 +128,32 @@ function addInstrument(location_name) {
 
   loc.appendChild(input);
 
-  depth = row.insertCell();
+  var depth = row.insertCell();
   depth.innerHTML = "<input type='text' value='0'>";
-  btn = row.insertCell();
+  var btn = row.insertCell();
   btn.innerHTML = '<button onclick="removeTableRow(this.parentNode.parentNode.id)">-</button>';
+
 }
 
+function updateConfig() {
+  // Check all layout selects are up to date
+  var instruments = document.getElementsByClassName('instrument')
+  for (var i = 0; i < instruments.length; i++) {
+    var old_select = instruments[i].getElementsByClassName('layoutSelect')[0];
+    var layout_id = old_select.value;
+    createLayoutSelect(old_select)
+
+    // if (layout_id) {
+    //   old_select.value = layout_id;
+    // }
+  }
+}
 
 // Remove rows from table
 function removeTableRow(id) {
   console.log(document.getElementById(id))
   document.getElementById(id).remove()
+  updateConfig()
 }
 
 // Add one layout and instrument
