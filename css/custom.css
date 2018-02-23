@@ -1,0 +1,18 @@
+body {
+    background-color: #628bdb;
+    font-family: Sans-Serif;
+}
+
+.container {
+  display: flex;
+}
+
+.tablegroup {
+  background-color: #ffffff;
+  border-style: solid;
+  border-color: #225fd6;
+  border-width: 5px;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
+}

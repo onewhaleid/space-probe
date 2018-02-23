@@ -89,7 +89,7 @@ function addLayout(layout_name) {
 var wave_climate_id = 0;
 
 // Add rows to wave climate table
-function addWaveClimate(wave_climate_name) {
+function addWaveClimate(wave_climate_name, water_level = null, Hs = null, Tp = null) {
   var table = document.getElementById('waveClimatesTable');
   var last_row = document.getElementById('waveClimatesLastRow');
   var row = document.createElement('tr');
@@ -111,11 +111,11 @@ function addWaveClimate(wave_climate_name) {
   }
 
   var water_level = row.insertCell();
-  water_level.innerHTML = "<input type='text' value='0'>";
+  water_level.innerHTML = "<input type='text' value='0' size=10 >";
   var Hs = row.insertCell();
-  Hs.innerHTML = "<input type='text' value='0'>";
+  Hs.innerHTML = "<input type='text' value='0' size=2>";
   var Tp = row.insertCell();
-  Tp.innerHTML = "<input type='text' value='0'>";
+  Tp.innerHTML = "<input type='text' value='0' size=2>";
 
   // Add delete button
   var btn = row.insertCell();
@@ -155,7 +155,7 @@ function addInstrument(location_name, layout_id = null, elev = null, ch = null) 
   select.className = 'layoutSelect';
   layout.appendChild(select);
 
-  createLayoutSelect(select)
+  createLayoutSelect(select);
 
   var loc = row.insertCell();
   var input = document.createElement('input');
@@ -170,10 +170,9 @@ function addInstrument(location_name, layout_id = null, elev = null, ch = null) 
   loc.appendChild(input);
 
   var elevation = row.insertCell();
-  elevation.innerHTML = "<input type='text' value='0'>";
+  elevation.innerHTML = "<input type='text' value='0' size=10>";
   var chainage = row.insertCell();
-  chainage.innerHTML = "<input type='text' value='0'>";
-
+  chainage.innerHTML = "<input type='text' value='0' size=10>";
 
   var btn = row.insertCell();
   btn.innerHTML = '<button onclick="removeTableRow(this.parentNode.parentNode.id)">-</button>';
@@ -207,6 +206,7 @@ function loadConfig(config) {
   document.getElementById('operator').value = config.operator;
   document.getElementById('scale').value = config.scale;
   document.getElementById('datum').value = config.datum;
+  document.getElementById('swl').innerHTML = 'SWL (m ' + config.datum + '):';
 
   for (var i = 0; i < config.layouts.length; i++) {
     var layout = config.layouts[i];
