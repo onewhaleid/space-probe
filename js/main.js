@@ -223,6 +223,29 @@ function loadConfig(config) {
   }
 }
 
+function bathyInterp(points, elev) {
+  // Find segment to interpolate
+  var i = 0;
+  while (points[i + 1][1] <= elev) {
+    i++;
+  }
+
+  // Get segment endpoints
+  x1 = points[i - 1][0];
+  x2 = points[i][0];
+  y1 = points[i - 1][1];
+  y2 = points[i][1];
+
+  forward = d3.scaleLinear()
+    .domain([y1, y2])
+    .range([x1, x2])(elev);
+  backward = d3.scaleLinear()
+    .domain([y2, y1])
+    .range([x2, x1])(elev);
+
+  return (forward + backward) / 2;
+}
+
 
 loadConfig(config)
 
