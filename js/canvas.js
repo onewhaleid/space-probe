@@ -3,7 +3,7 @@ var canvas_h = 200;
 var canvas_w = 800;
 
 // Craete canvas
-var canvas = d3.select("body").append("svg")
+var canvas = d3.select("#canvas").append("svg")
   .attr("width", canvas_w)
   .attr("height", canvas_h);
 

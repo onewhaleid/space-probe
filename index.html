@@ -16,11 +16,11 @@
 
 <body>
 
-  <div class="container">
-    <div class="tablegroup">
-      <h3>
+  <div class="row">
+    <div class="container container-blue">
+      <header>
       Project settings
-    </h3>
+    </header>
       <table id="projectTable">
         <tr>
           <td>
@@ -57,31 +57,31 @@
       </table>
     </div>
 
-    <div class="tablegroup">
-      <h3>
+    <div class="container container-blue">
+      <header>
       Wave climates
-    </h3>
-    <table id="waveClimatesTable">
-      <tr>
-        <td>
-          Wave climate name:
-        </td>
-        <td id=swl>
-          SWL:
-        </td>
-        <td>
-          Hs (m):
-        </td>
-        <td>
-          Tp (s):
-        </td>
-      </tr>
-      <tr id="waveClimatesLastRow">
-        <td>
-          <button onclick="addWaveClimate(this.id)">+</button>
-        </td>
-      </tr>
-    </table>
+    </header>
+      <table id="waveClimatesTable">
+        <tr>
+          <td>
+            Wave climate name:
+          </td>
+          <td id=swl>
+            SWL:
+          </td>
+          <td>
+            Hs (m):
+          </td>
+          <td>
+            Tp (s):
+          </td>
+        </tr>
+        <tr id="waveClimatesLastRow">
+          <td>
+            <button onclick="addWaveClimate(this.id)">+</button>
+          </td>
+        </tr>
+      </table>
     </div>
   </div>
 
@@ -117,11 +117,11 @@
   </div>
 
 
-  <div class="container">
-    <div class="tablegroup">
-      <h3>
+  <div class="row">
+    <div class="container container-blue">
+      <header>
         Layouts
-      </h3>
+      </header>
       <table id="layoutsTable">
         <tr>
           <td>
@@ -135,10 +135,10 @@
         </tr>
       </table>
     </div>
-    <div class="tablegroup">
-      <h3>
+    <div class="container container-blue">
+      <header>
         Instruments
-      </h3>
+      </header>
       <table id="instrumentsTable">
         <tr>
           <td>
@@ -163,11 +163,21 @@
     </div>
   </div>
 
+  <div id="canvas" class="container container-blue">
+    <header>
+      Flume layout
+    </header>
+  </div>
+
 </body>
+
 <script src="js/canvas.js"></script>
 <script src="js/main.js"></script>
 
-<!-- <script src="js/d3_interpolate.js"></script> -->
 <link href="css/custom.css" rel="stylesheet">
+
+<link href="css/kickstart.min.css" rel="stylesheet">
+<script src="js/kickstart.min.js"></script>
+
 
 </html>
