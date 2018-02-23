@@ -161,9 +161,13 @@ function removeTableRow(id) {
   updateConfig()
 }
 
-
-
+// Put config JSON data into html structure
 function loadConfig(config) {
+  document.getElementById('project').value = config.project;
+  document.getElementById('operator').value = config.operator;
+  document.getElementById('scale').value = config.scale;
+  document.getElementById('datum').value = config.datum;
+
   for (var i = 0; i < config.layouts.length; i++) {
     var layout = config.layouts[i];
     addLayout(layout.name);
