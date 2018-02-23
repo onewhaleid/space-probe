@@ -53,7 +53,7 @@ function download(obj, type) {
 }
 
 // Set up row id generator
-var layout_id = 0
+var layout_id = 0;
 
 // Add rows to table
 function addLayout(layout_name) {
@@ -84,6 +84,46 @@ function addLayout(layout_name) {
   // Update select fields in instrument definitions
   updateConfig()
 }
+
+// Set up row id generator
+var wave_climate_id = 0;
+
+// Add rows to wave climate table
+function addWaveClimate(wave_climate_name) {
+  var table = document.getElementById('waveClimatesTable');
+  var last_row = document.getElementById('waveClimatesLastRow');
+  var row = document.createElement('tr');
+  last_row.parentNode.insertBefore(row, last_row);
+
+  row.id = 'wave_climate_' + wave_climate_id;
+  row.className = 'wave_climate';
+  wave_climate_id += 1;
+  var wave_climate = row.insertCell();
+  var input = document.createElement('input');
+  wave_climate.appendChild(input);
+  input.type = 'text';
+  input.onchange = 'updateConfig()'
+
+  if (wave_climate_name === "") {
+    input.value = row.id;
+  } else {
+    input.value = wave_climate_name;
+  }
+
+  var water_level = row.insertCell();
+  water_level.innerHTML = "<input type='text' value='0'>";
+  var Hs = row.insertCell();
+  Hs.innerHTML = "<input type='text' value='0'>";
+  var Tp = row.insertCell();
+  Tp.innerHTML = "<input type='text' value='0'>";
+
+  // Add delete button
+  var btn = row.insertCell();
+  btn.innerHTML = "<button onclick='removeTableRow(this.parentNode.parentNode.id)'>-</button>";
+
+  updateConfig();
+}
+
 
 function createLayoutSelect(target_select) {
   // Get layout rows
@@ -176,7 +216,13 @@ function loadConfig(config) {
       addInstrument(instrument.location, l_id = layout.id, elev = instrument.proto_elev, ch = instrument.proto_ch);
     }
   }
+
+  for (var i = 0; i < config.wave_climates.length; i++) {
+    var wave_climate = config.wave_climates[i];
+    addWaveClimate(wave_climate.name);
+  }
 }
+
 
 loadConfig(config)
 
