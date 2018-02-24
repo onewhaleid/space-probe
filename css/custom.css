@@ -1,7 +1,17 @@
+body {
+  font-size: medium;
+}
+
 .container {
   margin: 5px;
 }
 
 .row {
   padding: 10px;
+}
+
+hr {
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: #47a5df;
 }

@@ -54,6 +54,41 @@
             <input type="text" id="datum">
           </td>
         </tr>
+        <tr>
+          <td colspan=2>
+            <hr>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Import configuration
+          </td>
+        </tr>
+        <tr>
+          <td colspan=2>
+            <input type="file" id="selectJson" value="Import">
+          </td>
+        </tr>
+        <tr>
+          <td colspan=2>
+            <button id="importJson">Import</button>
+          </td>
+        </tr>
+        <tr>
+          <td colspan=2>
+            <hr>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Download configuration
+          </td>
+        </tr>
+        <tr>
+          <td colspan=2>
+            <button id="export" onclick="download(config, 'text/plain')">Download</button>
+          </td>
+        </tr>
       </table>
     </div>
 
@@ -83,39 +118,23 @@
         </tr>
       </table>
     </div>
+    <!-- Import csv -->
+    <div class="container container-blue">
+      <header>
+        Bathymetry
+      </header>
+      <div>
+        <input type="file" id="selectCsv" value="Import">
+      </div>
+      <div>
+        <button id="importCsv">Import</button>
+      </div>
+      <div>
+        <textarea id="dataCsv">
+    </textarea>
+      </div>
+    </div>
   </div>
-
-  <!-- Import JSON -->
-  <div>
-    <input type="file" id="selectJson" value="Import">
-  </div>
-  <div>
-    <button id="importJson">Import</button>
-  </div>
-  <div>
-    <textarea id="dataJson">
-  </textarea>
-  </div>
-
-  <!-- Export JSON -->
-  <div>
-    <button id="export" onclick="download(config, 'text/plain')">Export</button>
-  </div>
-
-  <br>
-
-  <!-- Import csv -->
-  <div>
-    <input type="file" id="selectCsv" value="Import">
-  </div>
-  <div>
-    <button id="importCsv">Import</button>
-  </div>
-  <div>
-    <textarea id="dataCsv">
-  </textarea>
-  </div>
-
 
   <div class="row">
     <div class="container container-blue">
