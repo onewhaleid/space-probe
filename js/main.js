@@ -208,6 +208,7 @@ function loadConfig(config) {
   document.getElementById('datum').value = config.datum;
   document.getElementById('swl').innerHTML = 'SWL (m ' + config.datum + '):';
 
+  // Update layout data
   for (var i = 0; i < config.layouts.length; i++) {
     var layout = config.layouts[i];
     addLayout(layout.name);
@@ -217,6 +218,7 @@ function loadConfig(config) {
     }
   }
 
+  // Update wave climate data
   for (var i = 0; i < config.wave_climates.length; i++) {
     var wave_climate = config.wave_climates[i];
     addWaveClimate(wave_climate.name);

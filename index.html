@@ -8,6 +8,7 @@
     document.write("<script src='js/d3.v4.min.js'><\/script>");
   }
 </script>
+<link rel="shortcut icon" href=img/favicon.png>
 
 <head>
   <meta charset="utf-8">
@@ -27,7 +28,7 @@
             Project name:
           </td>
           <td>
-            <input type="text" id="project">
+            <input type="text" id="project" onchange="config.project=this.value">
           </td>
         </tr>
         <tr>
@@ -35,7 +36,7 @@
             Operator:
           </td>
           <td>
-            <input type="text" id="operator">
+            <input type="text" id="operator" onchange="config.operator=this.value">
           </td>
         </tr>
         <tr>
@@ -43,7 +44,7 @@
             Length scale:
           </td>
           <td>
-            <input type="text" id="scale">
+            <input type="text" id="scale" onchange="config.scale=Number(this.value)">
           </td>
         </tr>
         <tr>
@@ -51,7 +52,7 @@
             Elevation datum:
           </td>
           <td>
-            <input type="text" id="datum">
+            <input type="text" id="datum" onchange="config.datum=Number(this.value)">
           </td>
         </tr>
         <tr>
@@ -94,7 +95,7 @@
 
     <div class="container container-blue">
       <header>
-        Wave climates
+        Wave climates (prototype units)
       </header>
       <table id="waveClimatesTable">
         <tr>
@@ -121,7 +122,7 @@
     <!-- Import csv -->
     <div class="container container-blue">
       <header>
-        Bathymetry
+        Bathymetry (model units, mm)
       </header>
       <div>
         <input type="file" id="selectCsv" value="Import">

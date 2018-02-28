@@ -1,6 +1,6 @@
 // Set canvas size
-var canvas_h = 200;
-var canvas_w = 800;
+var canvas_w = window.innerWidth - 50;
+var canvas_h = canvas_w * 0.3;
 
 // Craete canvas
 var canvas = d3.select("#canvas").append("svg")
@@ -22,10 +22,13 @@ function redraw() {
   var bathy_x_values = bathy.map(function(elt) {
     return elt[0];
   });
+  var bathy_y_values = bathy.map(function(elt) {
+    return elt[1];
+  });
   var bathy_x_min = Math.min.apply(null, bathy_x_values);
   var bathy_x_max = Math.max.apply(null, bathy_x_values);
-
-  console.log(bathy_x_max)
+  var bathy_y_min = Math.min.apply(null, bathy_y_values);
+  var bathy_y_max = Math.max.apply(null, bathy_y_values);
 
   var water = [
     [0, 0],
@@ -37,12 +40,12 @@ function redraw() {
   // Set wave direction
   var rtl = false;
 
-  var model_w = 30000;
-  var model_h = 1500;
+  var model_w = bathy_x_max;
+  var model_h = bathy_y_max;
 
   // Scale model to fit canvas
   var x_scale = canvas_w / model_w;
-  var y_scale = canvas_h / model_h;
+  var y_scale = canvas_h / model_h / 2;
 
   function toSvgUnits(x) {
     for (i = 0; i < x.length; i++) {
@@ -67,6 +70,16 @@ function redraw() {
     .style("fill", "#cccccc")
     .attr("id", "bathy")
     .attr("points", toSvgUnits(bathy));
+
+  // Draw dimension line
+  var dim_pts = [
+    [0, 400],
+    [20000, 400],
+  ];
+  canvas.append("polyline")
+    .style("stroke", "black")
+    .attr("marker-end", "url(#arrow)")
+    .attr("points", toSvgUnits(dim_pts));
 
   // Update data
   var pts = [
