@@ -2,6 +2,10 @@ body {
   font-size: medium;
 }
 
+input {
+  font-size: medium;
+}
+
 .container {
   margin: 5px;
 }
