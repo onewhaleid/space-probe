@@ -53,7 +53,7 @@ function download(obj, type) {
 var layout_id = 0;
 
 // Add rows to table
-function addLayout(layout_name) {
+function addLayout(layout_name, manual = false) {
   var table = document.getElementById('layoutsTable');
   var last_row = document.getElementById('layoutsLastRow');
   var row = document.createElement('tr');
@@ -80,13 +80,17 @@ function addLayout(layout_name) {
 
   // Update select fields in instrument definitions
   updateUiElements()
+
+  if (manual) {
+    htmlToJson()
+  };
 }
 
 // Set up row id generator
 var wave_climate_id = 0;
 
 // Add rows to wave climate table
-function addWaveClimate(wave_climate_name, water_level = 0, Hs = 0, Tp = 0) {
+function addWaveClimate(wave_climate_name, water_level = 0, Hs = 0, Tp = 0, manual = false) {
   var table = document.getElementById('waveClimatesTable');
   var last_row = document.getElementById('waveClimatesLastRow');
   var row = document.createElement('tr');
@@ -137,8 +141,11 @@ function addWaveClimate(wave_climate_name, water_level = 0, Hs = 0, Tp = 0) {
   var btn = row.insertCell();
   btn.innerHTML = "<button onclick='removeTableRow(this.parentNode.parentNode.id)'>-</button>";
 
-  updateUiElements();
-  htmlToJson();
+  if (manual) {
+    updateUiElements();
+    htmlToJson();
+  }
+
 }
 
 
@@ -158,7 +165,7 @@ function createLayoutSelect(target_select) {
 var inst_id = 0
 
 // Add rows to table
-function addInstrument(location_name, layout_id = null, elev = 0) {
+function addInstrument(location_name, layout_id = null, elev = 0, manual = false) {
   var table = document.getElementById('instrumentsTable');
   var last_row = document.getElementById('instrumentsLastRow');
   var row = document.createElement('tr');
@@ -195,6 +202,9 @@ function addInstrument(location_name, layout_id = null, elev = 0) {
   var btn = row.insertCell();
   btn.innerHTML = '<button onclick="removeTableRow(this.parentNode.parentNode.id)">-</button>';
 
+  if (manual) {
+    htmlToJson();
+  }
 }
 
 function updateUiElements() {
