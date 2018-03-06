@@ -19,7 +19,6 @@ var config = {
     'instruments': [{
       'location': 'offshore',
       'proto_elev': 10,
-      'proto_ch': 10,
     }, ],
   }, ],
   'wave_climates': [{
@@ -35,11 +34,9 @@ var config = {
 var new_instrument = {
   'location': 'structure',
   'proto_elev': 10,
-  'proto_ch': 10,
 }
 
 config['layouts'][0]['instruments'].push(new_instrument)
-console.log(config)
 
 // Download configuration
 function download(obj, type) {
@@ -161,7 +158,7 @@ function createLayoutSelect(target_select) {
 var inst_id = 0
 
 // Add rows to table
-function addInstrument(location_name, layout_id = null, elev = 0, ch = 0) {
+function addInstrument(location_name, layout_id = null, elev = 0) {
   var table = document.getElementById('instrumentsTable');
   var last_row = document.getElementById('instrumentsLastRow');
   var row = document.createElement('tr');
@@ -194,12 +191,6 @@ function addInstrument(location_name, layout_id = null, elev = 0, ch = 0) {
   elev_input.type = 'text';
   elev_input.value = elev;
   elev_input.size = 10;
-
-  var ch_input = document.createElement('input');
-  row.insertCell().appendChild(ch_input);
-  ch_input.type = 'text';
-  ch_input.value = ch;
-  ch_input.size = 10;
 
   var btn = row.insertCell();
   btn.innerHTML = '<button onclick="removeTableRow(this.parentNode.parentNode.id)">-</button>';
@@ -240,16 +231,35 @@ function htmlToJson() {
     wave_climates_json.push(climate);
   }
   config.wave_climates = wave_climates_json;
-  console.log(wave_climates_json)
+
+  // Get instrument data
+  instruments_json = [];
+  var instruments = document.getElementsByClassName('instrument');
+  for (var i = 0; i < instruments.length; i++) {
+    var instrument = {};
+    instrument.layout_id = instruments[i].querySelector('td:nth-child(1) > select > option').value;
+    instrument.location = instruments[i].querySelector('td:nth-child(2) > input[type="text"]').value;
+    instrument.proto_elev = instruments[i].querySelector('td:nth-child(3) > input[type="text"]').value;
+    instruments_json.push(instrument);
+  }
 
   // Get layout data
-
-}
-
-// Remove rows from table
-function removeTableRow(id) {
-  document.getElementById(id).remove()
-  updateUiElements()
+  var layouts_json = [];
+  var layouts = document.getElementsByClassName('layout');
+  for (var i = 0; i < layouts.length; i++) {
+    var layout = {};
+    layout.name = layouts[i].querySelector('td:nth-child(1) > input[type="text"]').value;
+    layout.id = layouts[i].id;
+    layout.instruments = [];
+    // Add instruments
+    for (var i = 0; i < instruments_json.length; i++) {
+      if (instruments_json[i].layout_id === layout.id) {
+        layout.instruments.push(instruments_json[i]);
+      }
+    }
+    layouts_json.push(layout);
+  }
+  config.layouts = layouts_json;
 }
 
 // Put config JSON data into html structure
@@ -266,7 +276,7 @@ function jsonToHtml(config) {
     addLayout(layout.name);
     for (var j = 0; j < layout.instruments.length; j++) {
       var instrument = layout.instruments[j];
-      addInstrument(instrument.location, l_id = layout.id, elev = instrument.proto_elev, ch = instrument.proto_ch);
+      addInstrument(instrument.location, l_id = layout.id, elev = instrument.proto_elev);
     }
   }
 
@@ -275,6 +285,12 @@ function jsonToHtml(config) {
     var wave_climate = config.wave_climates[i];
     addWaveClimate(wave_climate.name, water_level = wave_climate.WL, Hs = wave_climate.Hs, Tp = wave_climate.Tp);
   }
+}
+
+// Remove rows from table
+function removeTableRow(id) {
+  document.getElementById(id).remove()
+  updateUiElements()
 }
 
 function bathyInterp(points, elev) {
