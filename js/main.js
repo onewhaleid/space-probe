@@ -69,7 +69,7 @@ function addLayout(layout_name) {
   var input = document.createElement('input');
   layout.appendChild(input);
   input.type = 'text';
-  input.onchange = 'updateConfig()'
+  input.onchange = updateUiElements()
 
   if (layout_name === "") {
     input.value = row.id;
@@ -82,7 +82,7 @@ function addLayout(layout_name) {
   btn.innerHTML = "<button onclick='removeTableRow(this.parentNode.parentNode.id)'>-</button>";
 
   // Update select fields in instrument definitions
-  updateConfig()
+  updateUiElements()
 }
 
 // Set up row id generator
@@ -114,24 +114,34 @@ function addWaveClimate(wave_climate_name, water_level = 0, Hs = 0, Tp = 0) {
   water_level_input.type = 'text';
   water_level_input.value = water_level;
   water_level_input.size = 10;
+  water_level_input.addEventListener('input', function() {
+    htmlToJson();
+  });
 
   var Hs_input = document.createElement('input');
   row.insertCell().appendChild(Hs_input);
   Hs_input.type = 'text';
   Hs_input.value = Hs;
   Hs_input.size = 2;
+  Hs_input.addEventListener('input', function() {
+    htmlToJson();
+  });
 
   var Tp_input = document.createElement('input');
   row.insertCell().appendChild(Tp_input);
   Tp_input.type = 'text';
   Tp_input.value = Tp;
   Tp_input.size = 2;
+  Tp_input.addEventListener('input', function() {
+    htmlToJson();
+  });
 
   // Add delete button
   var btn = row.insertCell();
   btn.innerHTML = "<button onclick='removeTableRow(this.parentNode.parentNode.id)'>-</button>";
 
-  updateConfig();
+  updateUiElements();
+  htmlToJson();
 }
 
 
@@ -196,7 +206,7 @@ function addInstrument(location_name, layout_id = null, elev = 0, ch = 0) {
 
 }
 
-function updateConfig() {
+function updateUiElements() {
   // Check all layout selects are up to date
   var instruments = document.getElementsByClassName('instrument')
   for (var i = 0; i < instruments.length; i++) {
@@ -211,14 +221,39 @@ function updateConfig() {
   }
 }
 
+function htmlToJson() {
+  // Put input values into JSON config data
+  config.project = document.getElementById('project').value;
+  config.operator = document.getElementById('operator').value;
+  config.scale = Number(document.getElementById('scale').value);
+  config.datum = document.getElementById('datum').value;
+
+  // Get wave climate
+  var wave_climates_json = [];
+  var wave_climates = document.getElementsByClassName('wave_climate');
+  for (var i = 0; i < wave_climates.length; i++) {
+    var climate = {};
+    climate.name = wave_climates[i].querySelector('td:nth-child(1) > input[type="text"]').value;
+    climate.WL = Number(wave_climates[i].querySelector('td:nth-child(2) > input[type="text"]').value);
+    climate.Hs = Number(wave_climates[i].querySelector('td:nth-child(3) > input[type="text"]').value);
+    climate.Tp = Number(wave_climates[i].querySelector('td:nth-child(4) > input[type="text"]').value);
+    wave_climates_json.push(climate);
+  }
+  config.wave_climates = wave_climates_json;
+  console.log(wave_climates_json)
+
+  // Get layout data
+
+}
+
 // Remove rows from table
 function removeTableRow(id) {
   document.getElementById(id).remove()
-  updateConfig()
+  updateUiElements()
 }
 
 // Put config JSON data into html structure
-function loadConfig(config) {
+function jsonToHtml(config) {
   document.getElementById('project').value = config.project;
   document.getElementById('operator').value = config.operator;
   document.getElementById('scale').value = config.scale;
@@ -266,10 +301,4 @@ function bathyInterp(points, elev) {
 }
 
 
-loadConfig(config)
-
-// Add one layout and instrument
-
-// addLayout('wave climate calibration')
-// addInstrument('offshore')
-// addInstrument('structure')
+jsonToHtml(config)
