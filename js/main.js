@@ -66,23 +66,26 @@ function addLayout(layout_name, manual = false) {
   var input = document.createElement('input');
   layout.appendChild(input);
   input.type = 'text';
-  input.onchange = updateUiElements()
+  // input.onchange = updateUiElements();
 
-  if (layout_name === "") {
-    input.value = row.id;
-  } else {
-    input.value = layout_name;
-  }
+  // if (layout_name === "") {
+  //   input.value = row.id;
+  // } else {
+  //   input.value = layout_name;
+  // }
+
+  input.value = layout_name || row.id;
+
 
   // Add delete button
   var btn = row.insertCell();
   btn.innerHTML = "<button onclick='removeTableRow(this.parentNode.parentNode.id)'>-</button>";
 
   // Update select fields in instrument definitions
-  updateUiElements()
+  updateUiElements();
 
   if (manual) {
-    htmlToJson()
+    htmlToJson();
   };
 }
 
@@ -145,7 +148,6 @@ function addWaveClimate(wave_climate_name, water_level = 0, Hs = 0, Tp = 0, manu
     updateUiElements();
     htmlToJson();
   }
-
 }
 
 
@@ -184,12 +186,7 @@ function addInstrument(location_name, layout_id = null, elev = 0, manual = false
   var loc = row.insertCell();
   var input = document.createElement('input');
   input.type = 'text';
-
-  if (location_name === "") {
-    input.value = row.id;
-  } else {
-    input.value = location_name;
-  }
+  input.value = location_name || row.id;
 
   loc.appendChild(input);
 
@@ -203,7 +200,7 @@ function addInstrument(location_name, layout_id = null, elev = 0, manual = false
   btn.innerHTML = '<button onclick="removeTableRow(this.parentNode.parentNode.id)">-</button>';
 
   if (manual) {
-    htmlToJson();
+  htmlToJson();
   }
 }
 
@@ -270,25 +267,17 @@ function htmlToJson() {
     layouts_json.push(layout);
   }
   config.layouts = layouts_json;
+
+  console.log(config.layouts)
 }
 
 // Put config JSON data into html structure
-function jsonToHtml(config) {
+function jsonToHtml() {
   document.getElementById('project').value = config.project;
   document.getElementById('operator').value = config.operator;
   document.getElementById('scale').value = config.scale;
   document.getElementById('datum').value = config.datum;
   document.getElementById('swl').innerHTML = 'SWL (m ' + config.datum + '):';
-
-  // Update layout data
-  for (var i = 0; i < config.layouts.length; i++) {
-    var layout = config.layouts[i];
-    addLayout(layout.name);
-    for (var j = 0; j < layout.instruments.length; j++) {
-      var instrument = layout.instruments[j];
-      addInstrument(instrument.location, l_id = layout.id, elev = instrument.proto_elev);
-    }
-  }
 
   // Update wave climate data
   for (var i = 0; i < config.wave_climates.length; i++) {
@@ -297,10 +286,21 @@ function jsonToHtml(config) {
   }
 }
 
+// Update layout data
+for (var i = 0; i < config.layouts.length; i++) {
+  var layout = config.layouts[i];
+  addLayout(layout.name);
+  for (var j = 0; j < layout.instruments.length; j++) {
+    var instrument = layout.instruments[j];
+    addInstrument(instrument.location, layout_id = layout.id, elev = instrument.proto_elev);
+    console.log(instrument);
+  }
+}
+
 // Remove rows from table
 function removeTableRow(id) {
-  document.getElementById(id).remove()
-  updateUiElements()
+  document.getElementById(id).remove();
+  updateUiElements();
 }
 
 function bathyInterp(points, elev) {
@@ -327,4 +327,4 @@ function bathyInterp(points, elev) {
 }
 
 
-jsonToHtml(config)
+jsonToHtml();
