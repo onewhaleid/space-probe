@@ -63,19 +63,13 @@ function addLayout(layout_name, manual = false) {
   row.className = 'layout';
   layout_id += 1;
   var layout = row.insertCell();
-  var input = document.createElement('input');
-  layout.appendChild(input);
-  input.type = 'text';
-  // input.onchange = updateUiElements();
-
-  // if (layout_name === "") {
-  //   input.value = row.id;
-  // } else {
-  //   input.value = layout_name;
-  // }
-
-  input.value = layout_name || row.id;
-
+  var name_input = document.createElement('input');
+  layout.appendChild(name_input);
+  name_input.type = 'text';
+  name_input.value = layout_name || row.id;
+  name_input.addEventListener('input', function() {
+    htmlToJson();
+  });
 
   // Add delete button
   var btn = row.insertCell();
@@ -103,15 +97,13 @@ function addWaveClimate(wave_climate_name, water_level = 0, Hs = 0, Tp = 0, manu
   row.className = 'wave_climate';
   wave_climate_id += 1;
   var wave_climate = row.insertCell();
-  var input = document.createElement('input');
-  wave_climate.appendChild(input);
-  input.type = 'text';
-
-  if (wave_climate_name === "") {
-    input.value = row.id;
-  } else {
-    input.value = wave_climate_name;
-  }
+  var wave_climate_input = document.createElement('input');
+  wave_climate.appendChild(wave_climate_input);
+  wave_climate_input.type = 'text';
+  wave_climate_input.value = wave_climate_name || row.id;
+  wave_climate_input.addEventListener('input', function() {
+    htmlToJson();
+  });
 
   var water_level_input = document.createElement('input');
   row.insertCell().appendChild(water_level_input);
@@ -186,17 +178,22 @@ function addInstrument(location_name, l_id = null, elev = 0, manual = false) {
   createLayoutSelect(select, l_id);
 
   var loc = row.insertCell();
-  var input = document.createElement('input');
-  input.type = 'text';
-  input.value = location_name || row.id;
-
-  loc.appendChild(input);
+  var location_input = document.createElement('input');
+  loc.appendChild(location_input);
+  location_input.type = 'text';
+  location_input.value = location_name || row.id;
+  location_input.addEventListener('input', function() {
+    htmlToJson();
+  });
 
   var elev_input = document.createElement('input');
   row.insertCell().appendChild(elev_input);
   elev_input.type = 'text';
   elev_input.value = elev;
   elev_input.size = 10;
+  elev_input.addEventListener('input', function() {
+    htmlToJson();
+  });
 
   var btn = row.insertCell();
   btn.innerHTML = '<button onclick="removeTableRow(this.parentNode.parentNode.id)">-</button>';
