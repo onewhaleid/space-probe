@@ -150,8 +150,7 @@ function addWaveClimate(wave_climate_name, water_level = 0, Hs = 0, Tp = 0, manu
   }
 }
 
-
-function createLayoutSelect(target_select) {
+function createLayoutSelect(target_select, l_id = null) {
   // Get layout rows
   var layouts = document.getElementsByClassName('layout');
   target_select.innerHTML = '';
@@ -160,6 +159,9 @@ function createLayoutSelect(target_select) {
     opt.value = layouts[i].id;
     opt.innerHTML = layouts[i].querySelector('input').value;
     target_select.appendChild(opt);
+    if (l_id) {
+      target_select.value = l_id;
+    }
   }
 }
 
@@ -167,7 +169,7 @@ function createLayoutSelect(target_select) {
 var inst_id = 0
 
 // Add rows to table
-function addInstrument(location_name, layout_id = null, elev = 0, manual = false) {
+function addInstrument(location_name, l_id = null, elev = 0, manual = false) {
   var table = document.getElementById('instrumentsTable');
   var last_row = document.getElementById('instrumentsLastRow');
   var row = document.createElement('tr');
@@ -181,7 +183,7 @@ function addInstrument(location_name, layout_id = null, elev = 0, manual = false
   select.className = 'layoutSelect';
   layout.appendChild(select);
 
-  createLayoutSelect(select);
+  createLayoutSelect(select, l_id);
 
   var loc = row.insertCell();
   var input = document.createElement('input');
@@ -200,7 +202,7 @@ function addInstrument(location_name, layout_id = null, elev = 0, manual = false
   btn.innerHTML = '<button onclick="removeTableRow(this.parentNode.parentNode.id)">-</button>';
 
   if (manual) {
-  htmlToJson();
+    htmlToJson();
   }
 }
 
@@ -210,7 +212,7 @@ function updateUiElements() {
   for (var i = 0; i < instruments.length; i++) {
     var old_select = instruments[i].getElementsByClassName('layoutSelect')[0];
     var old_layout_id = old_select.value;
-    createLayoutSelect(old_select)
+    createLayoutSelect(old_select);
 
     // Remember current value
     if (old_layout_id) {
@@ -244,7 +246,7 @@ function htmlToJson() {
   var instruments = document.getElementsByClassName('instrument');
   for (var i = 0; i < instruments.length; i++) {
     var instrument = {};
-    instrument.layout_id = instruments[i].querySelector('td:nth-child(1) > select > option').value;
+    instrument.layout_id = instruments[i].querySelector('td:nth-child(1) > select').value;
     instrument.location = instruments[i].querySelector('td:nth-child(2) > input[type="text"]').value;
     instrument.proto_elev = instruments[i].querySelector('td:nth-child(3) > input[type="text"]').value;
     instruments_json.push(instrument);
@@ -259,16 +261,15 @@ function htmlToJson() {
     layout.id = layouts[i].id;
     layout.instruments = [];
     // Add instruments
-    for (var i = 0; i < instruments_json.length; i++) {
-      if (instruments_json[i].layout_id === layout.id) {
-        layout.instruments.push(instruments_json[i]);
+    for (var j = 0; j < instruments_json.length; j++) {
+      if (instruments_json[j].layout_id === layout.id) {
+        layout.instruments.push(instruments_json[j]);
       }
     }
     layouts_json.push(layout);
   }
   config.layouts = layouts_json;
-
-  console.log(config.layouts)
+  console.log('JSON updated')
 }
 
 // Put config JSON data into html structure
@@ -292,9 +293,9 @@ for (var i = 0; i < config.layouts.length; i++) {
   addLayout(layout.name);
   for (var j = 0; j < layout.instruments.length; j++) {
     var instrument = layout.instruments[j];
-    addInstrument(instrument.location, layout_id = layout.id, elev = instrument.proto_elev);
-    console.log(instrument);
+    addInstrument(instrument.location, l_id = layout.id, elev = instrument.proto_elev);
   }
+  console.log('HTML updated');
 }
 
 // Remove rows from table
