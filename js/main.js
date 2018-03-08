@@ -174,6 +174,9 @@ function addInstrument(location_name, l_id = null, elev = 0, manual = false) {
   var select = document.createElement('select');
   select.className = 'layoutSelect';
   layout.appendChild(select);
+  select.addEventListener('input', function() {
+    htmlToJson();
+  });
 
   createLayoutSelect(select, l_id);
 
