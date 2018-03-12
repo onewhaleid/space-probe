@@ -272,6 +272,13 @@ function htmlToJson() {
   console.log('JSON updated')
 }
 
+function removeByClass(element_class) {
+  var elements = document.getElementsByClassName(element_class);
+  for (var i = 0; i < elements.length; i++) {
+    elements[i].parentNode.removeChild(elements[i]);
+  }
+}
+
 // Put config JSON data into html structure
 function jsonToHtml() {
   document.getElementById('project').value = config.project;
@@ -280,22 +287,31 @@ function jsonToHtml() {
   document.getElementById('datum').value = config.datum;
   document.getElementById('swl').innerHTML = 'SWL (m ' + config.datum + '):';
 
-  // Update wave climate data
+  // Remove existing wave climates
+  removeByClass('wave_climate');
+
+  // Add new wave climates
   for (var i = 0; i < config.wave_climates.length; i++) {
     var wave_climate = config.wave_climates[i];
     addWaveClimate(wave_climate.name, water_level = wave_climate.WL, Hs = wave_climate.Hs, Tp = wave_climate.Tp);
   }
-}
 
-// Update layout data
-for (var i = 0; i < config.layouts.length; i++) {
-  var layout = config.layouts[i];
-  addLayout(layout.name);
-  for (var j = 0; j < layout.instruments.length; j++) {
-    var instrument = layout.instruments[j];
-    addInstrument(instrument.location, l_id = layout.id, elev = instrument.proto_elev);
+  // Remove existing layouts and instruments
+  removeByClass('layout');
+  removeByClass('instrument');
+  removeByClass('instrument');
+
+  // Update layout data
+  for (var i = 0; i < config.layouts.length; i++) {
+    var layout = config.layouts[i];
+    addLayout(layout.name);
+    for (var j = 0; j < layout.instruments.length; j++) {
+      var instrument = layout.instruments[j];
+      addInstrument(instrument.location, l_id = layout.id, elev = instrument.proto_elev);
+    }
+    console.log('HTML updated');
   }
-  console.log('HTML updated');
+  updateUiElements();
 }
 
 // Remove rows from table
@@ -337,9 +353,6 @@ function importJson() {
   reader.onload = function(f) {
     config = JSON.parse(f.target.result);
     jsonToHtml();
-    // var formatted = JSON.stringify(result, null, 2);
-    // document.getElementById('dataJson').value = formatted;
-    // console.log(formatted);
   }
   reader.readAsText(files.item(0));
 };
@@ -354,10 +367,7 @@ function importCsv() {
   reader.onload = function(f) {
     var csv_string = f.target.result;
     document.getElementById('dataCsv').value = csv_string;
-
-    console.log(csv_string);
     var points = parseCsv(csv_string);
-    console.log(points);
   }
   reader.readAsText(files.item(0));
 };
