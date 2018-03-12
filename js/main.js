@@ -274,8 +274,8 @@ function htmlToJson() {
 
 function removeByClass(element_class) {
   var elements = document.getElementsByClassName(element_class);
-  for (var i = 0; i < elements.length; i++) {
-    elements[i].parentNode.removeChild(elements[i]);
+  while (elements.length > 0) {
+    elements[0].parentNode.removeChild(elements[0]);
   }
 }
 
@@ -292,22 +292,21 @@ function jsonToHtml() {
 
   // Add new wave climates
   for (var i = 0; i < config.wave_climates.length; i++) {
-    var wave_climate = config.wave_climates[i];
-    addWaveClimate(wave_climate.name, water_level = wave_climate.WL, Hs = wave_climate.Hs, Tp = wave_climate.Tp);
+    var w_climate = config.wave_climates[i];
+    addWaveClimate(w_climate.name, w_climate.WL, w_climate.Hs, w_climate.Tp);
   }
 
   // Remove existing layouts and instruments
   removeByClass('layout');
   removeByClass('instrument');
-  removeByClass('instrument');
 
   // Update layout data
   for (var i = 0; i < config.layouts.length; i++) {
-    var layout = config.layouts[i];
-    addLayout(layout.name);
-    for (var j = 0; j < layout.instruments.length; j++) {
-      var instrument = layout.instruments[j];
-      addInstrument(instrument.location, l_id = layout.id, elev = instrument.proto_elev);
+    var lyt = config.layouts[i];
+    addLayout(lyt.name);
+    for (var j = 0; j < lyt.instruments.length; j++) {
+      var inst = lyt.instruments[j];
+      addInstrument(inst.location, lyt.id, inst.proto_elev);
     }
     console.log('HTML updated');
   }
