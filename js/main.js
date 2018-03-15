@@ -69,6 +69,7 @@ function addLayout(layout_name, manual = false) {
   name_input.value = layout_name || row.id;
   name_input.addEventListener('input', function() {
     htmlToJson();
+    updateUiElements();
   });
 
   // Add delete button
