@@ -142,17 +142,18 @@ function addWaveClimate(wave_climate_name, water_level = 0, Hs = 0, Tp = 0, manu
   }
 }
 
-function createLayoutSelect(target_select, l_id = null) {
+function createLayoutSelect(target_select, lyt_id) {
   // Get layout rows
-  var layouts = document.getElementsByClassName('layout');
+  // var layouts = document.getElementsByClassName('layout');
+  var layouts = config.layouts;
   target_select.innerHTML = '';
   for (var i = 0; i < layouts.length; i++) {
     var opt = document.createElement('option');
     opt.value = layouts[i].id;
-    opt.innerHTML = layouts[i].querySelector('input').value;
+    opt.innerHTML = layouts[i].name;
     target_select.appendChild(opt);
-    if (l_id) {
-      target_select.value = l_id;
+    if (lyt_id) {
+      target_select.value = lyt_id;
     }
   }
 }
@@ -161,7 +162,7 @@ function createLayoutSelect(target_select, l_id = null) {
 var inst_id = 0
 
 // Add rows to table
-function addInstrument(location_name, l_id = null, elev = 0, manual = false) {
+function addInstrument(location_name, l_id, elev = 0, manual = false) {
   var table = document.getElementById('instrumentsTable');
   var last_row = document.getElementById('instrumentsLastRow');
   var row = document.createElement('tr');
@@ -177,6 +178,7 @@ function addInstrument(location_name, l_id = null, elev = 0, manual = false) {
   select.addEventListener('input', function() {
     htmlToJson();
   });
+  console.log(location_name, l_id)
 
   createLayoutSelect(select, l_id);
 
