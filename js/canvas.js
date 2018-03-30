@@ -17,6 +17,31 @@ function redraw() {
     .attr("width", canvas_w)
     .attr("height", canvas_h);
 
+  // Define arrow
+  canvas.append("svg:defs").append("svg:marker")
+    .attr("id", "arrow-start")
+    .attr("refX", 6)
+    .attr("refY", 6)
+    .attr("markerWidth", 30)
+    .attr("markerHeight", 30)
+    .attr("markerUnits", "userSpaceOnUse")
+    .attr("orient", "auto")
+    .append("path")
+    .attr("d", "M 12 0 0 6 12 12 9 6")
+    .style("fill", "black");
+
+  canvas.append("svg:defs").append("svg:marker")
+    .attr("id", "arrow-end")
+    .attr("refX", 6)
+    .attr("refY", 6)
+    .attr("markerWidth", 30)
+    .attr("markerHeight", 30)
+    .attr("markerUnits", "userSpaceOnUse")
+    .attr("orient", "auto")
+    .append("path")
+    .attr("d", "M 0 0 12 6 0 12 3 6")
+    .style("fill", "black");
+
   var water = [
     [0, 0],
     [0, 1000],
@@ -76,23 +101,22 @@ function redraw() {
 
   // Draw dimension line
   var dim_pts = [
-    [0, 400],
+    [10000, 400],
     [20000, 400],
   ];
+
+  // Draw dimension line
   canvas.append("polyline")
     .style("stroke", "black")
-    .attr("marker-end", "url(#arrow)")
+    .attr("marker-start", "url(#arrow-start)")
+    .attr("marker-end", "url(#arrow-end)")
     .attr("points", toSvgUnits(dim_pts));
-  //
-  // // Update data
-  // var pts = [
-  //   [0, 0],
-  //   [0, 100],
-  //   [40000, 100],
-  //   [40000, 0],
-  // ]
-  //
-  // d3.select("#water").attr("points", toSvgUnits(pts))
+
+  // Draw dimension text
+  canvas.append("text")
+    .attr("x", toSvgUnits(dim_pts)[0][0])
+    .attr("y", toSvgUnits(dim_pts)[0][1])
+    .text("text");
 }
 
 redraw()
