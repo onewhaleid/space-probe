@@ -159,6 +159,23 @@ function createLayoutSelect(target_select, lyt_id) {
   }
 }
 
+function createWaveClimateSelect(target_select, lyt_id) {
+  // Get layout rows
+  // var layouts = document.getElementsByClassName('layout');
+  var layouts = config.layouts;
+  target_select.innerHTML = '';
+  for (var i = 0; i < layouts.length; i++) {
+    var opt = document.createElement('option');
+    opt.value = layouts[i].id;
+    opt.innerHTML = layouts[i].name;
+    target_select.appendChild(opt);
+    if (lyt_id) {
+      target_select.value = lyt_id;
+    }
+  }
+}
+
+
 // Set up row id generator
 var inst_id = 0
 
@@ -179,7 +196,6 @@ function addInstrument(location_name, l_id, elev = 0, manual = false) {
   select.addEventListener('input', function() {
     htmlToJson();
   });
-  console.log(location_name, l_id)
 
   createLayoutSelect(select, l_id);
 
@@ -208,6 +224,15 @@ function addInstrument(location_name, l_id, elev = 0, manual = false) {
     htmlToJson();
   }
 }
+
+// Add rows to table
+function showSetup() {
+  var select = document.getElementById('setupWaveClimate');
+
+  createLayoutSelect(select, 'layout_0');
+
+}
+
 
 function updateUiElements() {
   // Check all layout selects are up to date

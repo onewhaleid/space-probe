@@ -129,7 +129,6 @@ function redraw() {
 
   drawDimLine(dim_pts)
 
-
 }
 
 redraw()
