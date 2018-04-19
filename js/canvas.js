@@ -5,7 +5,9 @@ function removeByTag(tag_name) {
   }
 }
 
+
 function redraw() {
+  // Remove existing sketch
   removeByTag('svg')
 
   var canvas_w = window.innerWidth - 50;
@@ -44,8 +46,8 @@ function redraw() {
 
   var water = [
     [0, 0],
-    [0, 1000],
-    [30000, 1000],
+    [0, 600],
+    [30000, 600],
     [30000, 0],
   ];
 
@@ -70,8 +72,9 @@ function redraw() {
   var model_h = bathy_y_max;
 
   // Scale model to fit canvas
+  var vertical_exaggeration = 5
   var x_scale = canvas_w / model_w;
-  var y_scale = canvas_h / model_h / 2;
+  var y_scale = canvas_h / model_h / vertical_exaggeration;
 
   function toSvgUnits(pts_raw) {
     var pts = [];
@@ -83,6 +86,25 @@ function redraw() {
       pts.push([x, y]);
     }
     return pts;
+  }
+
+  function drawDimLine(dim_pts) {
+    var dim_label_pts = [
+      [(dim_pts[0][0] + dim_pts[1][0]) / 2, dim_pts[0][1]],
+    ]
+
+    // Draw dimension line
+    canvas.append("polyline")
+      .style("stroke", "black")
+      .attr("marker-start", "url(#arrow-start)")
+      .attr("marker-end", "url(#arrow-end)")
+      .attr("points", toSvgUnits(dim_pts));
+
+    // Draw dimension text
+    canvas.append("text")
+      .attr("x", toSvgUnits(dim_label_pts)[0][0])
+      .attr("y", toSvgUnits(dim_label_pts)[0][1])
+      .text("text");
   }
 
   // Draw water
@@ -101,22 +123,13 @@ function redraw() {
 
   // Draw dimension line
   var dim_pts = [
-    [10000, 400],
-    [20000, 400],
+    [10000, 1000],
+    [20000, 1000],
   ];
 
-  // Draw dimension line
-  canvas.append("polyline")
-    .style("stroke", "black")
-    .attr("marker-start", "url(#arrow-start)")
-    .attr("marker-end", "url(#arrow-end)")
-    .attr("points", toSvgUnits(dim_pts));
+  drawDimLine(dim_pts)
 
-  // Draw dimension text
-  canvas.append("text")
-    .attr("x", toSvgUnits(dim_pts)[0][0])
-    .attr("y", toSvgUnits(dim_pts)[0][1])
-    .text("text");
+
 }
 
 redraw()
