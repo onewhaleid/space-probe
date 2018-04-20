@@ -226,7 +226,7 @@ function addInstrument(location_name, l_id, elev = 0, manual = false) {
 }
 
 // Add rows to table
-function showSetup() {
+function updateSetupOptions() {
   var select = document.getElementById('setupLayout');
   createLayoutSelect(select, config.layouts[0].id);
 
@@ -248,6 +248,8 @@ function updateUiElements() {
       old_select.value = old_layout_id;
     }
   }
+
+  updateSetupOptions()
 }
 
 function htmlToJson() {
@@ -298,7 +300,8 @@ function htmlToJson() {
     layouts_json.push(layout);
   }
   config.layouts = layouts_json;
-  console.log('JSON updated')
+
+  updateSetupOptions()
 }
 
 function removeByClass(element_class) {
