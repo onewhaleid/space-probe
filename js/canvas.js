@@ -72,7 +72,7 @@ function redraw() {
   var model_h = bathy_y_max;
 
   // Scale model to fit canvas
-  var vertical_exaggeration = 5
+  var vertical_exaggeration = 4
   var x_scale = canvas_w / model_w;
   var y_scale = canvas_h / model_h / vertical_exaggeration;
 
@@ -93,6 +93,8 @@ function redraw() {
       [(dim_pts[0][0] + dim_pts[1][0]) / 2, dim_pts[0][1]],
     ]
 
+    var dim_value = Math.abs(dim_pts[0][0] - dim_pts[1][0])
+
     // Draw dimension line
     canvas.append("polyline")
       .style("stroke", "black")
@@ -104,7 +106,13 @@ function redraw() {
     canvas.append("text")
       .attr("x", toSvgUnits(dim_label_pts)[0][0])
       .attr("y", toSvgUnits(dim_label_pts)[0][1])
-      .text("text");
+      .attr("paint-order", "stroke")
+      .attr("stroke-width", "20px")
+      .attr("stroke", "#ffffff")
+      .attr("text-anchor", "middle")
+      .attr("alignment-baseline", "middle")
+      .attr("font-size", "20")
+      .text(dim_value + " mm");
   }
 
   // Draw water
