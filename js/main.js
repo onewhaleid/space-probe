@@ -159,18 +159,18 @@ function createLayoutSelect(target_select, lyt_id) {
   }
 }
 
-function createWaveClimateSelect(target_select, lyt_id) {
+function createWaveClimateSelect(target_select, wave_climate_name) {
   // Get layout rows
   // var layouts = document.getElementsByClassName('layout');
-  var layouts = config.layouts;
+  var wave_climates = config.wave_climates;
   target_select.innerHTML = '';
-  for (var i = 0; i < layouts.length; i++) {
+  for (var i = 0; i < wave_climates.length; i++) {
     var opt = document.createElement('option');
-    opt.value = layouts[i].id;
-    opt.innerHTML = layouts[i].name;
+    opt.value = wave_climates[i].name;
+    opt.innerHTML = wave_climates[i].name;
     target_select.appendChild(opt);
-    if (lyt_id) {
-      target_select.value = lyt_id;
+    if (wave_climate_name) {
+      target_select.value = wave_climate_name;
     }
   }
 }
@@ -227,10 +227,11 @@ function addInstrument(location_name, l_id, elev = 0, manual = false) {
 
 // Add rows to table
 function showSetup() {
+  var select = document.getElementById('setupLayout');
+  createLayoutSelect(select, config.layouts[0].id);
+
   var select = document.getElementById('setupWaveClimate');
-
-  createLayoutSelect(select, 'layout_0');
-
+  createWaveClimateSelect(select, config.wave_climates[0].name);
 }
 
 
