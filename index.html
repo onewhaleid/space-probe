@@ -228,15 +228,10 @@
           <td>
             <form class="form form-horizontal">
               <div class="form_group">
-                <label>
-                  <input id="rtl" type="radio" name="dir" />
-                  <font size="6">&larr; &nbsp; &nbsp; &nbsp;</font>
-                </label>
-
-                <label>
-                  <input id="ltr" type="radio" name="dir" />
-                  <font size="6">&rarr;</font>
-                </label>
+                <label for="rtl"><font size="6">&larr;</font></label>
+                <input id="rtl" type="radio" name="dir" onclick="redraw()"/>
+                <input id="ltr" type="radio" name="dir" onclick="redraw()" checked="checked"/>
+                <label for="ltr"><font size="6">&rarr;</font></label>
               </div>
             </form>
           </td>

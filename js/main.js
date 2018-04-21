@@ -3,7 +3,8 @@ var config = {
   'operator': 'DH',
   'scale': 10,
   'datum': 'AHD',
-  'base_elevation': -10,
+  'base_elevation': -6,
+  'rtl': false,
   'bathy': [
     [0, 0],
     [5000, 0],
@@ -11,7 +12,6 @@ var config = {
     [25000, 400],
     [30000, 400],
     [30000, 0],
-    [0, 0],
   ],
   'layouts': [{
     'id': 'layout_0',
@@ -258,6 +258,7 @@ function htmlToJson() {
   config.operator = document.getElementById('operator').value;
   config.scale = Number(document.getElementById('scale').value);
   config.datum = document.getElementById('datum').value;
+  config.rtl = document.getElementById('trl').checked;
 
   // Get wave climate
   var wave_climates_json = [];
@@ -317,6 +318,7 @@ function jsonToHtml() {
   document.getElementById('operator').value = config.operator;
   document.getElementById('scale').value = config.scale;
   document.getElementById('datum').value = config.datum;
+  document.getElementById('rtl').checked = config.rtl;
   document.getElementById('swl').innerHTML = 'SWL (m ' + config.datum + '):';
 
   // Remove existing wave climates
@@ -417,26 +419,7 @@ function parseCsv(csv_string) {
   return points;
 }
 
-function mansard_funke(config) {
-  // Get selected setup values
-  var wave_climate_name = document.getElementById('setupWaveClimate').value
-  for (var i = 0; i < config.wave_climates.length; i++) {
-    if (config.wave_climates[i].name === wave_climate_name) {
-      var Hs = config.wave_climates[i].Hs;
-      var Tp = config.wave_climates[i].Tp;
-      var WL = config.wave_climates[i].WL;
-    }
-  }
-
-  var lyt_id = document.getElementById('setupLayout').value
-  for (var i = 0; i < config.layouts.length; i++) {
-    if (config.layouts[i].name === lyt_id) {
-      var Hs = config.wave_climates[i].Hs;
-      var Tp = config.wave_climates[i].Tp;
-      var WL = config.wave_climates[i].WL;
-    }
-  }
-
+function mansardFunke() {
   T_model = [];
 
   // Calculate wavelength

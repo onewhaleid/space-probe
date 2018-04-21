@@ -44,12 +44,27 @@ function redraw() {
     .attr("d", "M 0 0 12 6 0 12 3 6")
     .style("fill", "black");
 
-  var water = [
-    [0, 0],
-    [0, 600],
-    [30000, 600],
-    [30000, 0],
-  ];
+  // Get selected setup values
+  var wave_climate_name = document.getElementById('setupWaveClimate').value
+  for (var i = 0; i < config.wave_climates.length; i++) {
+    if (config.wave_climates[i].name === wave_climate_name) {
+      var Hs_proto = config.wave_climates[i].Hs;
+      var Tp_proto = config.wave_climates[i].Tp;
+      var WL_proto = config.wave_climates[i].WL;
+    }
+  }
+
+  var lyt_id = document.getElementById('setupLayout').value
+  for (var i = 0; i < config.layouts.length; i++) {
+    if (config.layouts[i].name === lyt_id) {
+      var instruments = config.layouts[i].instruments;
+    }
+  }
+
+  base_elev_model = config.base_elevation / config.scale * 1000;
+  WL_model = WL_proto / config.scale * 1000;
+  Hs_model = Hs_proto / config.scale * 1000;
+  Tp_model = Tp_proto / config.scale ** (1 / 2);
 
   var bathy = config.bathy;
 
@@ -60,13 +75,24 @@ function redraw() {
     return elt[1];
   });
 
+  var x_max = bathy_x_values[bathy_x_values.length - 1];
+  var water = [
+    [0, 0],
+    [0, WL_model - base_elev_model],
+    [x_max, WL_model - base_elev_model],
+    [x_max, 0],
+  ];
+
+  console.log(water)
+
+
   var bathy_x_min = Math.min.apply(null, bathy_x_values);
   var bathy_x_max = Math.max.apply(null, bathy_x_values);
   var bathy_y_min = Math.min.apply(null, bathy_y_values);
   var bathy_y_max = Math.max.apply(null, bathy_y_values);
 
   // Set wave direction
-  var rtl = false;
+  var rtl = document.getElementById('rtl').checked;
 
   var model_w = bathy_x_max;
   var model_h = bathy_y_max;
