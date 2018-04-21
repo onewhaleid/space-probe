@@ -10,7 +10,7 @@ function redraw() {
   // Remove existing sketch
   removeByTag('svg')
 
-  var canvas_w = window.innerWidth - 50;
+  var canvas_w = window.innerWidth - 300;
   var canvas_h = canvas_w * 0.3;
 
   // Create canvas
@@ -136,6 +136,7 @@ function redraw() {
   ];
 
   drawDimLine(dim_pts)
+
 
 }
 

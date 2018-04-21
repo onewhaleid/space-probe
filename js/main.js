@@ -417,5 +417,55 @@ function parseCsv(csv_string) {
   return points;
 }
 
+function mansard_funke(config) {
+  // Get selected setup values
+  var wave_climate_name = document.getElementById('setupWaveClimate').value
+  for (var i = 0; i < config.wave_climates.length; i++) {
+    if (config.wave_climates[i].name === wave_climate_name) {
+      var Hs = config.wave_climates[i].Hs;
+      var Tp = config.wave_climates[i].Tp;
+      var WL = config.wave_climates[i].WL;
+    }
+  }
+
+  var lyt_id = document.getElementById('setupLayout').value
+  for (var i = 0; i < config.layouts.length; i++) {
+    if (config.layouts[i].name === lyt_id) {
+      var Hs = config.wave_climates[i].Hs;
+      var Tp = config.wave_climates[i].Tp;
+      var WL = config.wave_climates[i].WL;
+    }
+  }
+
+  T_model = [];
+
+  // Calculate wavelength
+  var d = 0.1;
+  var T = 2;
+  var L_0 = huntWavelength(2, d);
+
+  console.log(L_0);
+
+  function huntWavelength(T, d) {
+
+    var pi = Math.PI;
+    var w = 2 * pi / T;
+    var g = 9.8;
+
+    var a1 = 0.666;
+    var a2 = 0.355;
+    var a3 = 0.1608465608;
+    var a4 = 0.063209;
+    var a5 = 0.0217540484;
+    var a6 = 0.0065407983;
+
+    var y = Math.pow(w, 2) * d / g;
+    var y1 = a1 * y + a2 * Math.pow(y, 2) + a3 * Math.pow(y, 3) + a4 * Math.pow(y, 4) + a5 * Math.pow(y, 5) + a6 * Math.pow(y, 6);
+    var y2 = Math.pow(y, 2) + y / (1 + y1);
+
+    var L_0 = 2 * pi * d / Math.sqrt(y2);
+    return L_0;
+  }
+}
 
 jsonToHtml();
