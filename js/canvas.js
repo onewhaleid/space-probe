@@ -83,9 +83,6 @@ function redraw() {
     [x_max, 0],
   ];
 
-  console.log(water)
-
-
   var bathy_x_min = Math.min.apply(null, bathy_x_values);
   var bathy_x_max = Math.max.apply(null, bathy_x_values);
   var bathy_y_min = Math.min.apply(null, bathy_y_values);

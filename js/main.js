@@ -49,6 +49,18 @@ function download(obj, type) {
   json_data.click();
 }
 
+// Set up event listeners for base elevation and scale
+document.getElementById('scale').addEventListener('input', function() {
+  htmlToJson();
+  updateUiElements();
+});
+
+document.getElementById('base_elevation').addEventListener('input', function() {
+  htmlToJson();
+  updateUiElements();
+});
+
+
 // Set up row id generator
 var layout_id = 0;
 
@@ -257,8 +269,9 @@ function htmlToJson() {
   config.project = document.getElementById('project').value;
   config.operator = document.getElementById('operator').value;
   config.scale = Number(document.getElementById('scale').value);
+  config.base_elevation = document.getElementById('base_elevation').value;
   config.datum = document.getElementById('datum').value;
-  config.rtl = document.getElementById('trl').checked;
+  config.rtl = document.getElementById('rtl').checked;
 
   // Get wave climate
   var wave_climates_json = [];
@@ -303,6 +316,7 @@ function htmlToJson() {
   config.layouts = layouts_json;
 
   updateSetupOptions()
+  redraw()
 }
 
 function removeByClass(element_class) {
@@ -317,6 +331,7 @@ function jsonToHtml() {
   document.getElementById('project').value = config.project;
   document.getElementById('operator').value = config.operator;
   document.getElementById('scale').value = config.scale;
+  document.getElementById('base_elevation').value = config.base_elevation;
   document.getElementById('datum').value = config.datum;
   document.getElementById('rtl').checked = config.rtl;
   document.getElementById('swl').innerHTML = 'SWL (m ' + config.datum + '):';
