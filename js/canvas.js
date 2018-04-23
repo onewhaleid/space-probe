@@ -61,10 +61,13 @@ function redraw() {
     }
   }
 
-  base_elev_model = config.base_elevation / config.scale * 1000;
-  WL_model = WL_proto / config.scale * 1000;
-  Hs_model = Hs_proto / config.scale * 1000;
-  Tp_model = Tp_proto / config.scale ** (1 / 2);
+  var base_elev_model = config.base_elevation / config.scale * 1000;
+  var WL_model = WL_proto / config.scale * 1000;
+  var Hs_model = Hs_proto / config.scale * 1000;
+  var Tp_model = Tp_proto / config.scale ** (1 / 2);
+  var d_model =  WL_model - base_elev_model;
+
+  var mf_spacing = mansardFunkeSpacing(Tp_model, d_model);
 
   var bathy = config.bathy;
 
@@ -99,17 +102,38 @@ function redraw() {
   var x_scale = canvas_w / model_w;
   var y_scale = canvas_h / model_h / vertical_exaggeration;
 
-  function toSvgUnits(pts_raw) {
-    var pts = [];
-    for (i = 0; i < pts_raw.length; i++) {
-      // Flip x coordinate if required
-      x = rtl * canvas_w - (rtl * 2 - 1) * pts_raw[i][0] * x_scale;
-      // Invert y coordinate to fit SVG canvas
-      y = canvas_h - pts_raw[i][1] * y_scale;
-      pts.push([x, y]);
-    }
-    return pts;
-  }
+
+
+  // Draw water
+  canvas.append("polyline")
+    .style("stroke", "none")
+    .style("fill", "#8198e0")
+    .attr("id", "water")
+    .attr("points", toSvgUnits(water));
+
+  // Draw bathy
+  canvas.append("polyline")
+    .style("stroke", "black")
+    .style("fill", "#cccccc")
+    .attr("id", "bathy")
+    .attr("points", toSvgUnits(bathy));
+
+    // Draw dimension line
+    var dim_pts = [
+      [10000, 1000],
+      [20000 + mf_spacing.x_12 * 1000, 1000],
+    ];
+
+    drawDimLine(dim_pts)
+
+    // Draw dimension line
+    var dim_pts = [
+      [10000, 1200],
+      [20000 + mf_spacing.x_13 * 1000, 1200],
+    ];
+
+    drawDimLine(dim_pts)
+
 
   function drawDimLine(dim_pts) {
     var dim_label_pts = [
@@ -138,29 +162,17 @@ function redraw() {
       .text(dim_value + " mm");
   }
 
-  // Draw water
-  canvas.append("polyline")
-    .style("stroke", "none")
-    .style("fill", "#8198e0")
-    .attr("id", "water")
-    .attr("points", toSvgUnits(water));
-
-  // Draw bathy
-  canvas.append("polyline")
-    .style("stroke", "black")
-    .style("fill", "#cccccc")
-    .attr("id", "bathy")
-    .attr("points", toSvgUnits(bathy));
-
-  // Draw dimension line
-  var dim_pts = [
-    [10000, 1000],
-    [20000, 1000],
-  ];
-
-  drawDimLine(dim_pts)
-
-
+  function toSvgUnits(pts_raw) {
+    var pts = [];
+    for (i = 0; i < pts_raw.length; i++) {
+      // Flip x coordinate if required
+      x = rtl * canvas_w - (rtl * 2 - 1) * pts_raw[i][0] * x_scale;
+      // Invert y coordinate to fit SVG canvas
+      y = canvas_h - pts_raw[i][1] * y_scale;
+      pts.push([x, y]);
+    }
+    return pts;
+  }
 }
 
 redraw()

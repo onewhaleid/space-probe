@@ -434,15 +434,24 @@ function parseCsv(csv_string) {
   return points;
 }
 
-function mansardFunke() {
-  T_model = [];
+function mansardFunkeSpacing(T, d) {
 
   // Calculate wavelength
-  var d = 0.1;
-  var T = 2;
-  var L_0 = huntWavelength(2, d);
+  var Lp = huntWavelength(T, d / 1000);
 
-  console.log(L_0);
+  var x = {};
+  x.x_12 = Lp / 10;
+  x.x_i1 = Lp / 5;
+  x.x_i2 = Lp * 3 / 10;
+  x.x_13 = (x.x_i1 + x.x_i2) / 2;
+
+  x.x_12 = Math.round(x.x_12);
+  x.x_13 = Math.round(x.x_13);
+  x.x_i1 = Math.round(x.x_i1);
+  x.x_i2 = Math.round(x.x_i2);
+
+  return x;
+
 
   function huntWavelength(T, d) {
 
@@ -461,8 +470,8 @@ function mansardFunke() {
     var y1 = a1 * y + a2 * Math.pow(y, 2) + a3 * Math.pow(y, 3) + a4 * Math.pow(y, 4) + a5 * Math.pow(y, 5) + a6 * Math.pow(y, 6);
     var y2 = Math.pow(y, 2) + y / (1 + y1);
 
-    var L_0 = 2 * pi * d / Math.sqrt(y2);
-    return L_0;
+    var Lp = 2 * pi * d / Math.sqrt(y2);
+    return Lp;
   }
 }
 
