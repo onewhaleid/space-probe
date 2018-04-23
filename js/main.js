@@ -7,11 +7,11 @@ var config = {
   'rtl': false,
   'bathy': [
     [0, 0],
-    [5000, 0],
-    [7500, 250],
-    [25000, 400],
-    [30000, 400],
-    [30000, 0],
+    [5.000, 0],
+    [7.500, 0.250],
+    [25.000, 0.400],
+    [30.000, 0.400],
+    [30.000, 0],
   ],
   'layouts': [{
     'id': 'layout_0',
@@ -437,7 +437,7 @@ function parseCsv(csv_string) {
 function mansardFunkeSpacing(T, d) {
 
   // Calculate wavelength
-  var Lp = huntWavelength(T, d / 1000);
+  var Lp = huntWavelength(T, d);
 
   var x = {};
   x.x_12 = Lp / 10;
@@ -445,10 +445,10 @@ function mansardFunkeSpacing(T, d) {
   x.x_i2 = Lp * 3 / 10;
   x.x_13 = (x.x_i1 + x.x_i2) / 2;
 
-  x.x_12 = Math.round(x.x_12 * 1000);
-  x.x_13 = Math.round(x.x_13 * 1000);
-  x.x_i1 = Math.round(x.x_i1 * 1000);
-  x.x_i2 = Math.round(x.x_i2 * 1000);
+  x.x_12 = Math.round(x.x_12 * 1000) / 1000;
+  x.x_13 = Math.round(x.x_13 * 1000) / 1000;
+  x.x_i1 = Math.round(x.x_i1 * 1000) / 1000;
+  x.x_i2 = Math.round(x.x_i2 * 1000) / 1000;
 
   return x;
 

@@ -61,9 +61,9 @@ function redraw() {
     }
   }
 
-  var base_elev_model = config.base_elevation / config.scale * 1000;
-  var WL_model = WL_proto / config.scale * 1000;
-  var Hs_model = Hs_proto / config.scale * 1000;
+  var base_elev_model = config.base_elevation / config.scale;
+  var WL_model = WL_proto / config.scale;
+  var Hs_model = Hs_proto / config.scale;
   var Tp_model = Tp_proto / config.scale ** (1 / 2);
   var d_model =  WL_model - base_elev_model;
 
@@ -120,16 +120,16 @@ function redraw() {
 
     // Draw dimension line
     var dim_pts = [
-      [10000, 1000],
-      [20000 + mf_spacing.x_12, 1000],
+      [10.000, 1.000],
+      [20.000 + mf_spacing.x_12, 1.000],
     ];
 
     drawDimLine(dim_pts)
 
     // Draw dimension line
     var dim_pts = [
-      [10000, 1200],
-      [20000 + mf_spacing.x_13, 1200],
+      [10.000, 1.200],
+      [20.000 + mf_spacing.x_13, 1.200],
     ];
 
     drawDimLine(dim_pts)
