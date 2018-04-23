@@ -121,7 +121,7 @@ function redraw() {
     // Draw dimension line
     var dim_pts = [
       [10000, 1000],
-      [20000 + mf_spacing.x_12 * 1000, 1000],
+      [20000 + mf_spacing.x_12, 1000],
     ];
 
     drawDimLine(dim_pts)
@@ -129,7 +129,7 @@ function redraw() {
     // Draw dimension line
     var dim_pts = [
       [10000, 1200],
-      [20000 + mf_spacing.x_13 * 1000, 1200],
+      [20000 + mf_spacing.x_13, 1200],
     ];
 
     drawDimLine(dim_pts)
