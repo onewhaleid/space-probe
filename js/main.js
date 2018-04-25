@@ -18,7 +18,7 @@ var config = {
     'name': 'wave climate calibration',
     'instruments': [{
       'location': 'offshore',
-      'proto_elev': 10,
+      'proto_elev': -10,
     }, ],
   }, ],
   'wave_climates': [{
@@ -33,7 +33,7 @@ var config = {
 // Add new instrument location
 var new_instrument = {
   'location': 'structure',
-  'proto_elev': 10,
+  'proto_elev': -10,
 }
 
 config['layouts'][0]['instruments'].push(new_instrument)
@@ -370,16 +370,27 @@ function removeTableRow(id) {
 
 function bathyInterp(points, elev) {
   // Find segment to interpolate
-  var i = 0;
-  while (points[i + 1][1] <= elev) {
-    i++;
+  for (var i = 0; i < points.length-1; i++) {
+    if (points[i + 1][1] >= elev) {
+      break
+    }
+  }
+
+  // Use last segment if elevation higher than bathy limit
+  if (i === points.length-1) {
+    i -= 1;
+  }
+
+  // Use first point if elevation lower than bathy limit
+  if (elev < points[0][1]) {
+    return points[0][0];
   }
 
   // Get segment endpoints
-  x1 = points[i - 1][0];
-  x2 = points[i][0];
-  y1 = points[i - 1][1];
-  y2 = points[i][1];
+  x1 = points[i][0];
+  x2 = points[i + 1][0];
+  y1 = points[i][1];
+  y2 = points[i + 1][1];
 
   forward = d3.scaleLinear()
     .domain([y1, y2])

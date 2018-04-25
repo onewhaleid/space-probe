@@ -56,7 +56,7 @@ function redraw() {
 
   var lyt_id = document.getElementById('setupLayout').value
   for (var i = 0; i < config.layouts.length; i++) {
-    if (config.layouts[i].name === lyt_id) {
+    if (config.layouts[i].id === lyt_id) {
       var instruments = config.layouts[i].instruments;
     }
   }
@@ -65,9 +65,8 @@ function redraw() {
   var WL_model = WL_proto / config.scale;
   var Hs_model = Hs_proto / config.scale;
   var Tp_model = Tp_proto / config.scale ** (1 / 2);
-  var d_model =  WL_model - base_elev_model;
 
-  var mf_spacing = mansardFunkeSpacing(Tp_model, d_model);
+
 
   var bathy = config.bathy;
 
@@ -102,8 +101,6 @@ function redraw() {
   var x_scale = canvas_w / model_w;
   var y_scale = canvas_h / model_h / vertical_exaggeration;
 
-
-
   // Draw water
   canvas.append("polyline")
     .style("stroke", "none")
@@ -118,21 +115,24 @@ function redraw() {
     .attr("id", "bathy")
     .attr("points", toSvgUnits(bathy));
 
+  // Get depths of instruments
+  for (var i = 0; i < instruments.length; i++) {
+    var d_model = WL_model - instruments[i].proto_elev / config.scale;
+    var elev_model = instruments[i].proto_elev / config.scale;
+    var mf_spacing = mansardFunkeSpacing(Tp_model, d_model);
+
+    var x_p1 = bathyInterp(bathy, d_model);
+
     // Draw dimension line
+    var dim_y = WL_model - base_elev_model;
+
     var dim_pts = [
-      [10.000, 1.000],
-      [20.000 + mf_spacing.x_12, 1.000],
+      [10.000, dim_y + 0.2],
+      [20.000 + mf_spacing.x_12, dim_y + 0.2],
     ];
 
     drawDimLine(dim_pts)
-
-    // Draw dimension line
-    var dim_pts = [
-      [10.000, 1.200],
-      [20.000 + mf_spacing.x_13, 1.200],
-    ];
-
-    drawDimLine(dim_pts)
+  }
 
 
   function drawDimLine(dim_pts) {
@@ -158,8 +158,7 @@ function redraw() {
       .attr("stroke", "#ffffff")
       .attr("text-anchor", "middle")
       .attr("alignment-baseline", "middle")
-      .attr("font-size", "20")
-      .text(dim_value + " mm");
+      .text(dim_value + " m");
   }
 
   function toSvgUnits(pts_raw) {
