@@ -117,32 +117,35 @@ function redraw() {
 
   // Get depths of instruments
   for (var i = 0; i < instruments.length; i++) {
-    var d_model = instruments[i].proto_elev / config.scale - base_elev_model + WL_model;
+    var y_model = instruments[i].proto_elev / config.scale - base_elev_model + WL_model;
     var elev_model = instruments[i].proto_elev / config.scale;
-    var mf_spacing = mansardFunkeSpacing(Tp_model, d_model);
-
-    var x_p1 = bathyInterp(config.bathy, d_model);
-
-    console.log(d_model)
+    var mf_spacing = mansardFunkeSpacing(Tp_model, y_model);
+    var x_p1 = bathyInterp(config.bathy, y_model);
 
     // Draw dimension line
     var dim_y = WL_model - base_elev_model;
 
     var dim_pts = [
-      [x_p1, dim_y + 0.2],
-      [x_p1 + mf_spacing.x_12, dim_y + 0.2],
+      [x_p1, dim_y + 0.8],
+      [x_p1 + mf_spacing.x_13, dim_y + 0.8],
     ];
+    drawDimLine(dim_pts, "x_13: ");
 
-    drawDimLine(dim_pts)
+    var dim_pts = [
+      [x_p1, dim_y + 0.4],
+      [x_p1 + mf_spacing.x_12, dim_y + 0.4],
+    ];
+    drawDimLine(dim_pts, "x_12: ");
   }
 
 
-  function drawDimLine(dim_pts) {
+  function drawDimLine(dim_pts, prefix) {
     var dim_label_pts = [
       [(dim_pts[0][0] + dim_pts[1][0]) / 2, dim_pts[0][1]],
-    ]
+    ];
 
-    var dim_value = Math.abs(dim_pts[0][0] - dim_pts[1][0])
+    var dim_value = Math.abs(dim_pts[0][0] - dim_pts[1][0]);
+    dim_value = Math.round(dim_value * 1000) / 1000;
 
     // Draw dimension line
     canvas.append("polyline")
@@ -152,15 +155,22 @@ function redraw() {
       .attr("points", toSvgUnits(dim_pts));
 
     // Draw dimension text
+    if (rtl) {
+      var text_anchor = "start";
+      var text_dx = 20;
+    } else {
+      var text_anchor = "end";
+      var text_dx = -20;
+    }
     canvas.append("text")
-      .attr("x", toSvgUnits(dim_label_pts)[0][0])
-      .attr("y", toSvgUnits(dim_label_pts)[0][1])
-      .attr("paint-order", "stroke")
-      .attr("stroke-width", "20px")
-      .attr("stroke", "#ffffff")
-      .attr("text-anchor", "middle")
+      .attr("x", toSvgUnits(dim_pts)[0][0] + text_dx)
+      .attr("y", toSvgUnits(dim_pts)[0][1])
+      // .attr("paint-order", "stroke")
+      // .attr("stroke-width", "20px")
+      // .attr("stroke", "#ffffff")
+      .attr("text-anchor", text_anchor)
       .attr("alignment-baseline", "middle")
-      .text(dim_value + " m");
+      .text(prefix + dim_value + " m ");
   }
 
   function toSvgUnits(pts_raw) {
