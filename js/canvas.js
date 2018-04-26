@@ -66,8 +66,6 @@ function redraw() {
   var Hs_model = Hs_proto / config.scale;
   var Tp_model = Tp_proto / config.scale ** (1 / 2);
 
-
-
   var bathy = config.bathy;
 
   var bathy_x_values = bathy.map(function(elt) {
@@ -118,8 +116,9 @@ function redraw() {
   // Get depths of instruments
   for (var i = 0; i < instruments.length; i++) {
     var y_model = instruments[i].proto_elev / config.scale - base_elev_model + WL_model;
+    var d_model = - instruments[i].proto_elev / config.scale + WL_model;
     var elev_model = instruments[i].proto_elev / config.scale;
-    var mf_spacing = mansardFunkeSpacing(Tp_model, y_model);
+    var mf_spacing = mansardFunkeSpacing(Tp_model, d_model);
     var x_p1 = bathyInterp(config.bathy, y_model);
 
     // Draw dimension line

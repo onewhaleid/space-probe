@@ -33,7 +33,7 @@ var config = {
 // Add new instrument location
 var new_instrument = {
   'location': 'structure',
-  'proto_elev': -10,
+  'proto_elev': -8,
 }
 
 config['layouts'][0]['instruments'].push(new_instrument)
