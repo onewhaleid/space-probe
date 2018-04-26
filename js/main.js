@@ -3,14 +3,14 @@ var config = {
   'operator': 'DH',
   'scale': 10,
   'datum': 'AHD',
-  'base_elevation': -6,
+  'base_elevation': -12,
   'rtl': false,
   'bathy': [
     [0, 0],
     [5.000, 0],
-    [7.500, 0.250],
-    [25.000, 0.400],
-    [30.000, 0.400],
+    [7.500, 0.450],
+    [25.000, 0.800],
+    [30.000, 0.800],
     [30.000, 0],
   ],
   'layouts': [{
@@ -25,7 +25,7 @@ var config = {
     'name': '1y ARI',
     'Hs': 2,
     'Tp': 12,
-    'WL': 1.5,
+    'WL': 0,
   }, ]
 }
 

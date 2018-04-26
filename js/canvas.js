@@ -112,23 +112,25 @@ function redraw() {
   canvas.append("polyline")
     .style("stroke", "black")
     .style("fill", "#cccccc")
-    .attr("id", "bathy")
+    // .attr("id", "bathy")
     .attr("points", toSvgUnits(bathy));
 
   // Get depths of instruments
   for (var i = 0; i < instruments.length; i++) {
-    var d_model = WL_model - instruments[i].proto_elev / config.scale;
+    var d_model = instruments[i].proto_elev / config.scale - base_elev_model + WL_model;
     var elev_model = instruments[i].proto_elev / config.scale;
     var mf_spacing = mansardFunkeSpacing(Tp_model, d_model);
 
-    var x_p1 = bathyInterp(bathy, d_model);
+    var x_p1 = bathyInterp(config.bathy, d_model);
+
+    console.log(d_model)
 
     // Draw dimension line
     var dim_y = WL_model - base_elev_model;
 
     var dim_pts = [
-      [10.000, dim_y + 0.2],
-      [20.000 + mf_spacing.x_12, dim_y + 0.2],
+      [x_p1, dim_y + 0.2],
+      [x_p1 + mf_spacing.x_12, dim_y + 0.2],
     ];
 
     drawDimLine(dim_pts)
