@@ -125,16 +125,16 @@ function redraw() {
     var dim_y = WL_model - base_elev_model;
 
     var dim_pts = [
-      [x_p1, dim_y + 0.8],
-      [x_p1 + mf_spacing.x_13, dim_y + 0.8],
+      [x_p1, dim_y + 0.4],
+      [x_p1 + mf_spacing.x_13, dim_y + 0.4],
     ];
-    drawDimLine(dim_pts, "x_13: ");
+    drawDimLine(dim_pts, "X₁₃: \u00A0\u00A0");
 
     var dim_pts = [
-      [x_p1, dim_y + 0.4],
-      [x_p1 + mf_spacing.x_12, dim_y + 0.4],
+      [x_p1, dim_y + 0.8],
+      [x_p1 + mf_spacing.x_12, dim_y + 0.8],
     ];
-    drawDimLine(dim_pts, "x_12: ");
+    drawDimLine(dim_pts, "X₁₂: \u00A0\u00A0");
   }
 
 
