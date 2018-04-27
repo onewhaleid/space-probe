@@ -17,9 +17,14 @@ var config = {
     'id': 'layout_0',
     'name': 'wave climate calibration',
     'instruments': [{
-      'location': 'offshore',
-      'proto_elev': -12,
-    }, ],
+        'location': 'offshore',
+        'proto_elev': -12,
+      },
+      {
+        'location': 'structure',
+        'proto_elev': -6,
+      },
+    ],
   }, ],
   'wave_climates': [{
     'name': '1y ARI',
@@ -29,14 +34,11 @@ var config = {
   }, ]
 }
 
-
-// Add new instrument location
-var new_instrument = {
-  'location': 'structure',
-  'proto_elev': -6,
+// Update config based on cookie data, if available
+var cookie_data = Cookies.get('config');
+if (typeof cookie_data != 'undefined') {
+  config = JSON.parse(cookie_data);
 }
-
-config['layouts'][0]['instruments'].push(new_instrument)
 
 // Download configuration
 function download(obj, type) {
@@ -315,8 +317,11 @@ function htmlToJson() {
   }
   config.layouts = layouts_json;
 
-  updateSetupOptions()
-  redraw()
+  updateSetupOptions();
+  redraw();
+
+  // Update cookies
+  Cookies.set('config', config);
 }
 
 function removeByClass(element_class) {
@@ -357,7 +362,6 @@ function jsonToHtml() {
       var inst = lyt.instruments[j];
       addInstrument(inst.location, lyt.id, inst.proto_elev);
     }
-    console.log('HTML updated');
   }
   updateUiElements();
 }
@@ -370,14 +374,14 @@ function removeTableRow(id) {
 
 function bathyInterp(points, elev) {
   // Find segment to interpolate
-  for (var i = 0; i < points.length-1; i++) {
+  for (var i = 0; i < points.length - 1; i++) {
     if (points[i + 1][1] >= elev) {
       break
     }
   }
 
   // Use last segment if elevation higher than bathy limit
-  if (i === points.length-1) {
+  if (i === points.length - 1) {
     i -= 1;
   }
 
