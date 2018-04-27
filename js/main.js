@@ -18,7 +18,7 @@ var config = {
     'name': 'wave climate calibration',
     'instruments': [{
       'location': 'offshore',
-      'proto_elev': -10,
+      'proto_elev': -12,
     }, ],
   }, ],
   'wave_climates': [{
@@ -33,7 +33,7 @@ var config = {
 // Add new instrument location
 var new_instrument = {
   'location': 'structure',
-  'proto_elev': -8,
+  'proto_elev': -6,
 }
 
 config['layouts'][0]['instruments'].push(new_instrument)
