@@ -164,9 +164,6 @@ function redraw() {
     canvas.append("text")
       .attr("x", toSvgUnits(dim_pts)[0][0] + text_dx)
       .attr("y", toSvgUnits(dim_pts)[0][1])
-      // .attr("paint-order", "stroke")
-      // .attr("stroke-width", "20px")
-      // .attr("stroke", "#ffffff")
       .attr("text-anchor", text_anchor)
       .attr("alignment-baseline", "middle")
       .text(prefix + dim_value + " m ");
@@ -174,7 +171,7 @@ function redraw() {
 
   function toSvgUnits(pts_raw) {
     var pts = [];
-    for (i = 0; i < pts_raw.length; i++) {
+    for (var i = 0; i < pts_raw.length; i++) {
       // Flip x coordinate if required
       x = rtl * canvas_w - (rtl * 2 - 1) * pts_raw[i][0] * x_scale;
       // Invert y coordinate to fit SVG canvas
