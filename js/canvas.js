@@ -155,7 +155,20 @@ function redraw() {
         .attr("points", toSvgUnits(probe_pts));
     }
 
-    // Calculate offset (x_scale units = pix/m)
+    console.log(instruments[i].location)
+    // Label locations
+    canvas.append("text")
+      .attr("x", toSvgUnits([
+        [x_p2]
+      ])[0][0])
+      .attr("y", toSvgUnits([
+        [0, dim_y + 160 / y_scale]
+      ])[0][1])
+      .attr("text-anchor", "middle")
+      .attr("alignment-baseline", "middle")
+      .text(instruments[i].location);
+
+    // Draw probe spacing
     var dim_pts = [
       [x_p1, dim_y + 80 / y_scale],
       [x_p1 + mf_spacing.x_13, dim_y + 80 / y_scale],
@@ -176,7 +189,6 @@ function redraw() {
     ];
 
     var dim_value = Math.abs(dim_pts[0][0] - dim_pts[1][0]);
-    dim_value = Math.round(dim_value * 1000) / 1000;
 
     // Draw dimension line
     canvas.append("polyline")
@@ -198,7 +210,7 @@ function redraw() {
       .attr("y", toSvgUnits(dim_pts)[0][1])
       .attr("text-anchor", text_anchor)
       .attr("alignment-baseline", "middle")
-      .text(prefix + dim_value + " m ");
+      .text(prefix + dim_value.toFixed(3) + " m ");
   }
 
   function toSvgUnits(pts_raw) {
