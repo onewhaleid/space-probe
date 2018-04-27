@@ -321,7 +321,7 @@ function htmlToJson() {
   redraw();
 
   // Update cookies
-  Cookies.set('config', config);
+  Cookies.set('config', config, {expires: 90});
 }
 
 function removeByClass(element_class) {
