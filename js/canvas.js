@@ -133,6 +133,8 @@ function redraw() {
     var elev_model = instruments[i].proto_elev / config.scale;
     var mf_spacing = mansardFunkeSpacing(Tp_model, d_model);
     var x_p1 = bathyInterp(config.bathy, y_model);
+    var x_p2 = x_p1 + mf_spacing.x_12;
+    var x_p3 = x_p1 + mf_spacing.x_13;
 
     // Draw dimension line
     var dim_y = WL_model - base_elev_model;
@@ -140,15 +142,18 @@ function redraw() {
     // Draw probes
     var p_top = dim_y + 30 / y_scale;
     var p_bottom = Math.max(dim_y - 0.6, y_model + 30 / y_scale);
-    var probe_pts = [
-      [x_p1, p_top],
-      [x_p1, p_bottom]
-    ];
-    canvas.append("polyline")
-      .style("stroke", "black")
-      .attr("marker-start", "url(#box)")
-      .attr("points", toSvgUnits(probe_pts));
+    var p_x = [x_p1, x_p2, x_p3];
 
+    for (var j = 0; j < p_x.length; j++) {
+      var probe_pts = [
+        [p_x[j], p_top],
+        [p_x[j], p_bottom]
+      ];
+      canvas.append("polyline")
+        .style("stroke", "black")
+        .attr("marker-start", "url(#box)")
+        .attr("points", toSvgUnits(probe_pts));
+    }
 
     // Calculate offset (x_scale units = pix/m)
     var dim_pts = [
