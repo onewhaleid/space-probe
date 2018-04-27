@@ -10,8 +10,8 @@ function redraw() {
   // Remove existing sketch
   removeByTag('svg')
 
-  var canvas_w = window.innerWidth - 500;
-  var canvas_h = canvas_w * 0.3;
+  var canvas_w = window.innerWidth - 400;
+  var canvas_h = canvas_w * 0.2;
 
   // Create canvas
   var canvas = d3.select("#canvas").append("svg")
@@ -95,9 +95,9 @@ function redraw() {
   var model_h = bathy_y_max;
 
   // Scale model to fit canvas
-  var vertical_exaggeration = 4
+  var vertical_exaggeration = 2;
   var x_scale = canvas_w / model_w;
-  var y_scale = canvas_h / model_h / vertical_exaggeration;
+  var y_scale = x_scale * vertical_exaggeration;
 
   // Draw water
   canvas.append("polyline")
