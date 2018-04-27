@@ -44,6 +44,19 @@ function redraw() {
     .attr("d", "M 0 0 12 6 0 12 3 6")
     .style("fill", "black");
 
+  // Define probe housing
+  canvas.append("svg:defs").append("svg:marker")
+    .attr("id", "box")
+    .attr("refX", 6)
+    .attr("refY", 6)
+    .attr("markerWidth", 30)
+    .attr("markerHeight", 30)
+    .attr("markerUnits", "userSpaceOnUse")
+    .attr("orient", "auto")
+    .append("path")
+    .attr("d", "M 0 0 0 12 18 12 18 0")
+    .style("fill", "black");
+
   // Get selected setup values
   var wave_climate_name = document.getElementById('setupWaveClimate').value
   for (var i = 0; i < config.wave_climates.length; i++) {
@@ -116,7 +129,7 @@ function redraw() {
   // Get depths of instruments
   for (var i = 0; i < instruments.length; i++) {
     var y_model = instruments[i].proto_elev / config.scale - base_elev_model + WL_model;
-    var d_model = - instruments[i].proto_elev / config.scale + WL_model;
+    var d_model = -instruments[i].proto_elev / config.scale + WL_model;
     var elev_model = instruments[i].proto_elev / config.scale;
     var mf_spacing = mansardFunkeSpacing(Tp_model, d_model);
     var x_p1 = bathyInterp(config.bathy, y_model);
@@ -124,15 +137,29 @@ function redraw() {
     // Draw dimension line
     var dim_y = WL_model - base_elev_model;
 
+    // Draw probes
+    var p_top = dim_y + 30 / y_scale;
+    var p_bottom = Math.max(dim_y - 0.6, y_model + 30 / y_scale);
+    var probe_pts = [
+      [x_p1, p_top],
+      [x_p1, p_bottom]
+    ];
+    canvas.append("polyline")
+      .style("stroke", "black")
+      .attr("marker-start", "url(#box)")
+      .attr("points", toSvgUnits(probe_pts));
+
+
+    // Calculate offset (x_scale units = pix/m)
     var dim_pts = [
-      [x_p1, dim_y + 0.4],
-      [x_p1 + mf_spacing.x_13, dim_y + 0.4],
+      [x_p1, dim_y + 80 / y_scale],
+      [x_p1 + mf_spacing.x_13, dim_y + 80 / y_scale],
     ];
     drawDimLine(dim_pts, "X₁₃: \u00A0\u00A0");
 
     var dim_pts = [
-      [x_p1, dim_y + 0.8],
-      [x_p1 + mf_spacing.x_12, dim_y + 0.8],
+      [x_p1, dim_y + 120 / y_scale],
+      [x_p1 + mf_spacing.x_12, dim_y + 120 / y_scale],
     ];
     drawDimLine(dim_pts, "X₁₂: \u00A0\u00A0");
   }
