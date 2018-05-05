@@ -141,7 +141,7 @@ function redraw() {
 
     // Draw probes
     var p_top = dim_y + 30 / y_scale;
-    var p_bottom = Math.max(dim_y - 0.6, y_model + 30 / y_scale);
+    var p_bottom = Math.max(dim_y - 0.6, y_model + 10 / y_scale);
     var p_x = [x_p1, x_p2, x_p3];
 
     for (var j = 0; j < p_x.length; j++) {
@@ -173,17 +173,18 @@ function redraw() {
       [x_p1, dim_y + 80 / y_scale],
       [x_p1 + mf_spacing.x_13, dim_y + 80 / y_scale],
     ];
-    drawDimLine(dim_pts, "X₁₃: \u00A0\u00A0");
+    drawDimLine(dim_pts, "X₁₃: \u00A0\u00A0", offshore=true);
 
     var dim_pts = [
       [x_p1, dim_y + 120 / y_scale],
       [x_p1 + mf_spacing.x_12, dim_y + 120 / y_scale],
     ];
-    drawDimLine(dim_pts, "X₁₂: \u00A0\u00A0");
+    drawDimLine(dim_pts, "X₁₂: \u00A0\u00A0", offshore=true);
+
   }
 
 
-  function drawDimLine(dim_pts, prefix) {
+  function drawDimLine(dim_pts, prefix, offshore) {
     var dim_label_pts = [
       [(dim_pts[0][0] + dim_pts[1][0]) / 2, dim_pts[0][1]],
     ];
@@ -198,13 +199,19 @@ function redraw() {
       .attr("points", toSvgUnits(dim_pts));
 
     // Draw dimension text
-    if (rtl) {
+    if (rtl === offshore) {
       var text_anchor = "start";
       var text_dx = 20;
     } else {
       var text_anchor = "end";
       var text_dx = -20;
     }
+
+    if (!offshore) {
+      text_dx *= -1;
+    }
+
+
     canvas.append("text")
       .attr("x", toSvgUnits(dim_pts)[0][0] + text_dx)
       .attr("y", toSvgUnits(dim_pts)[0][1])

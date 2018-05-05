@@ -27,11 +27,18 @@ var config = {
     ],
   }, ],
   'wave_climates': [{
-    'name': '1y ARI',
-    'Hs': 2,
-    'Tp': 12,
-    'WL': 0,
-  }, ]
+      'name': '1y ARI',
+      'Hs': 2,
+      'Tp': 12,
+      'WL': 0,
+    },
+    {
+      'name': '10y ARI',
+      'Hs': 3,
+      'Tp': 14,
+      'WL': 1,
+    },
+  ]
 }
 
 // Update config based on cookie data, if available
@@ -242,10 +249,25 @@ function addInstrument(location_name, l_id, elev = 0, manual = false) {
 // Add rows to table
 function updateSetupOptions() {
   var select = document.getElementById('setupLayout');
+  // Get existing value
+  var current_val = select.value;
   createLayoutSelect(select, config.layouts[0].id);
+  select.addEventListener('change', function() {
+    htmlToJson();
+  });
+  if (current_val != "") {
+    select.value = current_val;
+  }
 
   var select = document.getElementById('setupWaveClimate');
+  var current_val = select.value;
   createWaveClimateSelect(select, config.wave_climates[0].name);
+  select.addEventListener('change', function() {
+    htmlToJson();
+  });
+  if (current_val != "") {
+    select.value = current_val;
+  }
 }
 
 
@@ -321,7 +343,9 @@ function htmlToJson() {
   redraw();
 
   // Update cookies
-  Cookies.set('config', config, {expires: 90});
+  Cookies.set('config', config, {
+    expires: 90
+  });
 }
 
 function removeByClass(element_class) {
