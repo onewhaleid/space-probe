@@ -237,9 +237,23 @@
             <form class="form form-horizontal">
               <div class="form_group">
                 <label for="rtl"><font size="6">&larr;</font></label>
-                <input id="rtl" type="radio" name="dir" onclick="redraw()"/>
-                <input id="ltr" type="radio" name="dir" onclick="redraw()" checked="checked"/>
+                <input id="rtl" type="radio" name="dir" onclick="htmlToJson()"/>
+                <input id="ltr" type="radio" name="dir" onclick="htmlToJson()" checked="checked"/>
                 <label for="ltr"><font size="6">&rarr;</font></label>
+              </div>
+            </form>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Vertical scale
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <form class="form form-horizontal">
+              <div class="form_group">
+                <input id="v_scale" type="text" size="3" onclick="redraw()"/>
               </div>
             </form>
           </td>

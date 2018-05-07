@@ -155,7 +155,6 @@ function redraw() {
         .attr("points", toSvgUnits(probe_pts));
     }
 
-    console.log(instruments[i].location)
     // Label locations
     canvas.append("text")
       .attr("x", toSvgUnits([
