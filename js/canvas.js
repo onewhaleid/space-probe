@@ -102,15 +102,15 @@ function redraw() {
   var bathy_y_max = Math.max.apply(null, bathy_y_values);
 
   // Set wave direction
-  var rtl = document.getElementById('rtl').checked;
+  var rtl = config.rtl;
 
   var model_w = bathy_x_max;
   var model_h = bathy_y_max;
 
   // Scale model to fit canvas
-  var vertical_exaggeration = 2;
+  var vertical_scale = config.v_scale;
   var x_scale = canvas_w / model_w;
-  var y_scale = x_scale * vertical_exaggeration;
+  var y_scale = x_scale * vertical_scale;
 
   // Draw water
   canvas.append("polyline")

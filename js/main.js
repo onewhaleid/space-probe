@@ -5,6 +5,7 @@ var config = {
   'datum': 'AHD',
   'base_elevation': -12,
   'rtl': false,
+  'v_scale': 2,
   'bathy': [
     [0, 0],
     [5.000, 0],
@@ -65,6 +66,11 @@ document.getElementById('scale').addEventListener('input', function() {
 });
 
 document.getElementById('base_elevation').addEventListener('input', function() {
+  htmlToJson();
+  updateUiElements();
+});
+
+document.getElementById('v_scale').addEventListener('input', function() {
   htmlToJson();
   updateUiElements();
 });
@@ -296,6 +302,8 @@ function htmlToJson() {
   config.base_elevation = document.getElementById('base_elevation').value;
   config.datum = document.getElementById('datum').value;
   config.rtl = document.getElementById('rtl').checked;
+  config.v_scale = document.getElementById('v_scale').value;
+  console.log(config.v_scale)
 
   // Get wave climate
   var wave_climates_json = [];
@@ -364,6 +372,7 @@ function jsonToHtml() {
   document.getElementById('datum').value = config.datum;
   document.getElementById('rtl').checked = config.rtl;
   document.getElementById('swl').innerHTML = 'SWL (m ' + config.datum + '):';
+  document.getElementById('v_scale').value = config.v_scale;
 
   // Remove existing wave climates
   removeByClass('wave_climate');
