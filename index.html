@@ -1,13 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Use local copy of d3 if necessary -->
-<!-- <script src="https://d3js.org/d3.v4.min..js"></script> -->
-<script>
-  if (typeof(d3) === "undefined") {
-    document.write("<script src='js/d3.v4.min.js'><\/script>");
-  }
-</script>
+<script src="js/d3.v4.min.js"></script>
 <link rel="shortcut icon" href=img/favicon.png>
 
 <head>
@@ -17,278 +11,290 @@
 
 <body>
 
-  <div class="row">
-    <div class="container container-blue">
-      <header>
-        Project settings
-      </header>
-      <table id="projectTable">
-        <tr>
-          <td>
-            Project name:
-          </td>
-          <td>
-            <input type="text" id="project" onchange="config.project=this.value">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Operator:
-          </td>
-          <td>
-            <input type="text" id="operator" onchange="config.operator=this.value">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Length scale:
-          </td>
-          <td>
-            <input type="text" id="scale" onchange="config.scale=Number(this.value)">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Base elevation:
-          </td>
-          <td>
-            <input type="text" id="base_elevation" onchange="config.base_elevation=Number(this.value)">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Elevation datum:
-          </td>
-          <td>
-            <input type="text" id="datum" onchange="config.datum=this.value">
-          </td>
-        </tr>
-        <tr>
-          <td colspan=2>
-            <hr>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Import configuration
-          </td>
-        </tr>
-        <tr>
-          <td colspan=2>
-            <input type="file" id="selectJson" value="Import">
-          </td>
-        </tr>
-        <tr>
-          <td colspan=2>
-            <button id="importJson" onclick="importJson()">Import</button>
-          </td>
-        </tr>
-        <tr>
-          <td colspan=2>
-            <hr>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Download configuration
-          </td>
-        </tr>
-        <tr>
-          <td colspan=2>
-            <button id="export" onclick="download(config, 'text/plain')">Download</button>
-          </td>
-        </tr>
-      </table>
-    </div>
+  <button class="accordion">Project settings</button>
+  <div class="panel">
+    <div class="row">
+      <div class="container container-blue">
+        <header>
+          Project settings
+        </header>
+        <table id="projectTable">
+          <tr>
+            <td>
+              Project name:
+            </td>
+            <td>
+              <input type="text" id="project" onchange="config.project=this.value">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Operator:
+            </td>
+            <td>
+              <input type="text" id="operator" onchange="config.operator=this.value">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Length scale:
+            </td>
+            <td>
+              <input type="text" id="scale" onchange="config.scale=Number(this.value)">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Base elevation:
+            </td>
+            <td>
+              <input type="text" id="base_elevation" onchange="config.base_elevation=Number(this.value)">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Elevation datum:
+            </td>
+            <td>
+              <input type="text" id="datum" onchange="config.datum=this.value">
+            </td>
+          </tr>
+          <tr>
+            <td colspan=2>
+              <hr>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Import configuration
+            </td>
+          </tr>
+          <tr>
+            <td colspan=2>
+              <input type="file" id="selectJson" value="Import">
+            </td>
+          </tr>
+          <tr>
+            <td colspan=2>
+              <button id="importJson" onclick="importJson()">Import</button>
+            </td>
+          </tr>
+          <tr>
+            <td colspan=2>
+              <hr>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Download configuration
+            </td>
+          </tr>
+          <tr>
+            <td colspan=2>
+              <button id="export" onclick="download(config, 'text/plain')">Download</button>
+            </td>
+          </tr>
+        </table>
+      </div>
 
-    <div class="container container-blue">
-      <header>
-        Wave climates (prototype units)
-      </header>
-      <table id="waveClimatesTable">
-        <tr>
-          <td>
-            Wave climate name:
-          </td>
-          <td id=swl>
-            SWL:
-          </td>
-          <td>
-            Hs (m):
-          </td>
-          <td>
-            Tp (s):
-          </td>
-        </tr>
-        <tr id="waveClimatesLastRow">
-          <td>
-            <button onclick="addWaveClimate(this.id, water_level=0, Hs=0, Tp=0, manual=true)">+</button>
-          </td>
-        </tr>
-      </table>
-    </div>
-    <!-- Import csv -->
-    <div class="container container-blue">
-      <header>
-        Bathymetry (model units, mm)
-      </header>
-      <div>
-        <input type="file" id="selectCsv" value="Import">
+      <div class="container container-blue">
+        <header>
+          Wave climates (prototype units)
+        </header>
+        <table id="waveClimatesTable">
+          <tr>
+            <td>
+              Wave climate name:
+            </td>
+            <td id=swl>
+              SWL:
+            </td>
+            <td>
+              Hs (m):
+            </td>
+            <td>
+              Tp (s):
+            </td>
+          </tr>
+          <tr id="waveClimatesLastRow">
+            <td>
+              <button onclick="addWaveClimate(this.id, water_level=0, Hs=0, Tp=0, manual=true)">+</button>
+            </td>
+          </tr>
+        </table>
       </div>
-      <div>
-        <button id="importCsv">Import</button>
-      </div>
-      <div>
-        <textarea id="dataCsv">
+      <!-- Import csv -->
+      <div class="container container-blue">
+        <header>
+          Bathymetry (model units, mm)
+        </header>
+        <div>
+          <input type="file" id="selectCsv" value="Import">
+        </div>
+        <div>
+          <button id="importCsv">Import</button>
+        </div>
+        <div>
+          <textarea id="dataCsv">
     </textarea>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="row">
-    <div class="container container-blue">
-      <header>
-        Layouts
-      </header>
-      <table id="layoutsTable">
-        <tr>
-          <td>
-            Layout name:
-          </td>
-        </tr>
-        <tr id="layoutsLastRow">
-          <td>
-            <button onclick="addLayout(this.id, manual=true)">+</button>
-          </td>
-        </tr>
-      </table>
-    </div>
-    <div class="container container-blue">
-      <header>
-        Instruments
-      </header>
-      <table id="instrumentsTable">
-        <tr>
-          <td>
-            Layout:
-          </td>
-          <td>
-            Location name:
-          </td>
-          <td>
-            Elevation (m):
-          </td>
-        </tr>
-        <tr id="instrumentsLastRow">
-          <td>
-            <button onclick="addInstrument(this.id, l_id=null, elev=0, manual=true)">+</button>
-          </td>
-        </tr>
-      </table>
-    </div>
-  </div>
-
-  <div class="row">
-    <div id="setup" class="container container-blue">
-      <header>
-        Flume setup
-      </header>
-
-      <table id="setupTable">
-        <tr>
-          <td>
-            Layout
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <select id="setupLayout">
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <p>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Wave climate
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <select id="setupWaveClimate" onchange="htmlToJson()">
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <p></p>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Vertical exaggeration
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <input type="text" id="v_scale" size="3" onchange="config.v_scale=Number(this.value)">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <p></p>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Wave direction
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <form class="form form-horizontal">
-              <div class="form_group">
-                <label for="rtl"><font size="6">&larr;</font></label>
-                <input id="rtl" type="radio" name="dir" onclick="htmlToJson()" />
-                <input id="ltr" type="radio" name="dir" onclick="htmlToJson()" checked="checked" />
-                <label for="ltr"><font size="6">&rarr;</font></label>
-              </div>
-            </form>
-          </td>
-        </tr>
-
-      </table>
-
-    </div>
-    <div id="canvas" class="container container-blue">
-      <header>
-        Flume setup
-      </header>
-
-
+  <button class="accordion">Layouts and instruments</button>
+  <div class="panel">
+    <div class="row">
+      <div class="container container-blue">
+        <header>
+          Layouts
+        </header>
+        <table id="layoutsTable">
+          <tr>
+            <td>
+              Layout name:
+            </td>
+          </tr>
+          <tr id="layoutsLastRow">
+            <td>
+              <button onclick="addLayout(this.id, manual=true)">+</button>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="container container-blue">
+        <header>
+          Instruments
+        </header>
+        <table id="instrumentsTable">
+          <tr>
+            <td>
+              Layout:
+            </td>
+            <td>
+              Location name:
+            </td>
+            <td>
+              Elevation (m):
+            </td>
+          </tr>
+          <tr id="instrumentsLastRow">
+            <td>
+              <button onclick="addInstrument(this.id, l_id=null, elev=0, manual=true)">+</button>
+            </td>
+          </tr>
+        </table>
+      </div>
     </div>
   </div>
 
-  <div class="row">
-    <div id="probeSpacing" class="container container-blue">
-      <header>
-        Probe spacing
-      </header>
+  <button class="accordion">Flume</button>
+  <div class="panel">
+    <div class="row">
+      <div id="setup" class="container container-blue">
+        <header>
+          Flume setup
+        </header>
 
-      <table id="probeTable">
-        <tr>
-          <td>
-            Model
-          </td>
-          <td>
-            Prototype
-          </td>
-        </tr>
-      </table>
+        <table id="setupTable">
+          <tr>
+            <td>
+              Layout
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <select id="setupLayout">
+            </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Wave climate
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <select id="setupWaveClimate" onchange="htmlToJson()">
+            </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p></p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Vertical exaggeration
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type="text" id="v_scale" size="3" onchange="config.v_scale=Number(this.value)">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p></p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Wave direction
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <form class="form form-horizontal">
+                <div class="form_group">
+                  <label for="rtl"><font size="6">&larr;</font></label>
+                  <input id="rtl" type="radio" name="dir" onclick="htmlToJson()" />
+                  <input id="ltr" type="radio" name="dir" onclick="htmlToJson()" checked="checked" />
+                  <label for="ltr"><font size="6">&rarr;</font></label>
+                </div>
+              </form>
+            </td>
+          </tr>
 
+        </table>
+
+      </div>
+      <div id="canvas" class="container container-blue">
+        <header>
+          Flume setup
+        </header>
+
+
+      </div>
+    </div>
+  </div>
+
+  <button class="accordion">Dimensions</button>
+  <div class="panel">
+    <div class="row">
+      <div id="probeSpacing" class="container container-blue">
+        <header>
+          Probe spacing
+        </header>
+
+        <table id="probeTable">
+          <tr>
+            <td>
+              Model
+            </td>
+            <td>
+              Prototype
+            </td>
+          </tr>
+        </table>
+
+      </div>
     </div>
 
 
@@ -302,5 +308,10 @@
 <link href="css/kickstart.min.css" rel="stylesheet">
 <link href="css/custom.css" rel="stylesheet">
 
+
+</body>
+
+<link href="css/custom.css" rel="stylesheet">
+<link href="css/kickstart.min.css" rel="stylesheet">
 
 </html>
