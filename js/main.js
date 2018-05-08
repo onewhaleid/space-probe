@@ -291,7 +291,8 @@ function updateUiElements() {
     }
   }
 
-  updateSetupOptions()
+  updateSetupOptions();
+  resizeAccordions();
 }
 
 function htmlToJson() {
@@ -348,6 +349,7 @@ function htmlToJson() {
   config.layouts = layouts_json;
 
   updateSetupOptions();
+  resizeAccordions();
   redraw();
 
   // Update cookies
@@ -524,6 +526,16 @@ function mansardFunkeSpacing(T, d) {
 }
 
 jsonToHtml();
+
+function resizeAccordions() {
+  var panels = document.getElementsByClassName("panel");
+  for (var i = 0; i < panels.length; i++) {
+    if (panels[i].style.maxHeight) {
+      panels[i].style.maxHeight = panels[i].scrollHeight + "px";
+    }
+  }
+
+}
 
 // Update accordion status
 var acc = document.getElementsByClassName("accordion");
