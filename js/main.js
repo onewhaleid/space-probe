@@ -523,6 +523,8 @@ function mansardFunkeSpacing(T, d) {
   }
 }
 
+jsonToHtml();
+
 // Update accordion status
 var acc = document.getElementsByClassName("accordion");
 for (var i = 0; i < acc.length; i++) {
@@ -538,5 +540,3 @@ for (var i = 0; i < acc.length; i++) {
   // Start with accordions open by default
   acc[i].click();
 }
-
-jsonToHtml();
