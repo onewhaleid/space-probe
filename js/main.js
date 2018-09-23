@@ -70,6 +70,11 @@ document.getElementById('base_elevation').addEventListener('input', function() {
   updateUiElements();
 });
 
+document.getElementById('datum').addEventListener('input', function() {
+  htmlToJson();
+  document.getElementById('swl').innerHTML = 'SWL (m ' + config.datum + '):';
+});
+
 document.getElementById('v_scale').addEventListener('input', function() {
   htmlToJson();
   updateUiElements();
