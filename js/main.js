@@ -309,7 +309,6 @@ function htmlToJson() {
   config.datum = document.getElementById('datum').value;
   config.rtl = document.getElementById('rtl').checked;
   config.v_scale = document.getElementById('v_scale').value;
-  console.log(config.v_scale)
 
   // Get wave climate
   var wave_climates_json = [];
@@ -470,7 +469,10 @@ function importCsv() {
   reader.onload = function(f) {
     var csv_string = f.target.result;
     document.getElementById('dataCsv').value = csv_string;
-    var points = parseCsv(csv_string);
+    var points = parseCsv(csv_string.split("\n"));
+    config.bathy = points;
+    jsonToHtml();
+    redraw();
   }
   reader.readAsText(files.item(0));
 };
@@ -479,7 +481,7 @@ function importCsv() {
 function parseCsv(csv_string) {
   var points = [];
   for (var i = 0; i < csv_string.length; i++) {
-    var row = str[i].split(',');
+    var row = csv_string[i].split(',');
     var x = parseFloat(row[0]);
     var y = parseFloat(row[1]);
     if (!isNaN(x) & !isNaN(y)) {
