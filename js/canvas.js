@@ -81,14 +81,34 @@ function redraw() {
 
   var bathy = config.bathy;
 
+  // Get origin
+  var x0 = bathy[0][0];
+  var y0 = bathy[0][1];
+
   var bathy_x_values = bathy.map(function(elt) {
-    return elt[0];
+    return elt[0] - x0;
   });
   var bathy_y_values = bathy.map(function(elt) {
-    return elt[1];
+    return elt[1] - y0;
   });
 
   var x_max = bathy_x_values[bathy_x_values.length - 1];
+
+  // Append additional point at base of bathy
+  if (bathy_y_values[bathy_y_values.length - 1] !== 0) {
+    bathy_x_values.push(x_max);
+    bathy_y_values.push(0);
+  }
+
+  // Update bathy values
+  bathy = [];
+  for (var i = 0; i < bathy_x_values.length; i++) {
+    bathy.push([bathy_x_values[i], bathy_y_values[i]]);
+  }
+
+  // Update bathy definition in config
+  config.bathy = bathy;
+
   var water = [
     [0, 0],
     [0, WL_model - base_elev_model],
@@ -172,13 +192,13 @@ function redraw() {
       [x_p1, dim_y + 80 / y_scale],
       [x_p1 + mf_spacing.x_13, dim_y + 80 / y_scale],
     ];
-    drawDimLine(dim_pts, "X₁₃: \u00A0\u00A0", offshore=true);
+    drawDimLine(dim_pts, "X₁₃: \u00A0\u00A0", offshore = true);
 
     var dim_pts = [
       [x_p1, dim_y + 120 / y_scale],
       [x_p1 + mf_spacing.x_12, dim_y + 120 / y_scale],
     ];
-    drawDimLine(dim_pts, "X₁₂: \u00A0\u00A0", offshore=true);
+    drawDimLine(dim_pts, "X₁₂: \u00A0\u00A0", offshore = true);
 
   }
 
