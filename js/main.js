@@ -455,6 +455,8 @@ function importJson() {
   reader.onload = function(f) {
     config = JSON.parse(f.target.result);
     jsonToHtml();
+    updateUiElements();
+    redraw();
   }
   reader.readAsText(files.item(0));
 };
