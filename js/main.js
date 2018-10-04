@@ -273,9 +273,9 @@ function updateSetupOptions() {
   var select = document.getElementById('setupWaveClimate');
   var current_val = select.value;
   createWaveClimateSelect(select, config.wave_climates[0].name);
-  select.addEventListener('change', function() {
-    htmlToJson();
-  });
+  // select.addEventListener('change', function() {
+  //   htmlToJson();
+  // });
   if (current_val != "") {
     select.value = current_val;
   }
