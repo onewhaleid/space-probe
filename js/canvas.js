@@ -148,7 +148,7 @@ function redraw() {
 
   // Get depths of instruments
   for (var i = 0; i < instruments.length; i++) {
-    var y_model = instruments[i].proto_elev / config.scale - base_elev_model + WL_model;
+    var y_model = instruments[i].proto_elev / config.scale - base_elev_model;
     var d_model = -instruments[i].proto_elev / config.scale + WL_model;
     var elev_model = instruments[i].proto_elev / config.scale;
     var mf_spacing = mansardFunkeSpacing(Tp_model, d_model);
