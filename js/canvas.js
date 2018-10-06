@@ -250,6 +250,36 @@ function redraw() {
     }
     return pts;
   }
+
+  function createTable() {
+    document.getElementById("probeTable").innerHTML = ""
+    var table = document.getElementById("probeTable")
+    var layouts = config.layouts;
+    var wave_climates = config.wave_climates;
+    for (var i = 0; i < layouts.length; i++) {
+      var instruments = layouts[i].instruments;
+      for (var j = 0; j < wave_climates.length; j++) {
+        for (var k = 0; k < instruments.length; k++) {
+          var newRow = table.insertRow();
+          if (j === 0 & k === 0) {
+            newRow.className = "bordered";
+            newRow.insertCell().textContent = layouts[i].name;
+          } else {
+            newRow.insertCell().textContent = "";
+          }
+          if (k === 0) {
+            newRow.insertCell().textContent = wave_climates[j].name;
+          } else {
+            newRow.insertCell().textContent = "";
+          }
+          newRow.insertCell().textContent = instruments[k].location;
+        }
+      }
+    }
+  }
+
+  createTable();
+
 }
 
-redraw()
+redraw();

@@ -56,3 +56,11 @@ hr {
   overflow: hidden;
   transition: max-height 0.2s ease-out;
 }
+
+#probeTable td {
+  padding: 0 15px 0 15px;
+}
+
+tr.bordered td {
+  border-top: 1px solid black;
+}
