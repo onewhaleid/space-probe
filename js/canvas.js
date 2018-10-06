@@ -262,8 +262,8 @@ function redraw() {
     newRow.insertCell().textContent = "Layout";
     newRow.insertCell().textContent = "Wave climate";
     newRow.insertCell().textContent = "Location";
-    newRow.insertCell().textContent = "x12";
-    newRow.insertCell().textContent = "x13";
+    newRow.insertCell().textContent = "x12 (m)";
+    newRow.insertCell().textContent = "x13 (m)";
 
     var layouts = config.layouts;
     var wave_climates = config.wave_climates;
@@ -283,6 +283,17 @@ function redraw() {
             newRow.insertCell().textContent = "";
           }
           newRow.insertCell().textContent = instruments[k].location;
+
+          // Calculate probe spacing
+          var d_proto = wave_climates[j].WL - instruments[k].proto_elev;
+          var Tp_proto = wave_climates[j].Tp;
+          var d_model = d_proto / config.scale;
+          var Tp_model = Tp_proto / config.scale ** (1 / 2);
+          var mf_spacing = mansardFunkeSpacing(Tp_model, d_model);
+
+          newRow.insertCell().textContent = mf_spacing.x_12;
+          newRow.insertCell().textContent = mf_spacing.x_13;
+
           // Add empty row after each layout
           if (k === instruments.length - 1) {
             var newRow = table.insertRow();
@@ -294,6 +305,8 @@ function redraw() {
   }
 
   createTable();
+  resizeAccordions();
+
 
 }
 
