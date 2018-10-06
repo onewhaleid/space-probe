@@ -252,8 +252,19 @@ function redraw() {
   }
 
   function createTable() {
+    // Remove content from existing table
     document.getElementById("probeTable").innerHTML = ""
     var table = document.getElementById("probeTable")
+
+    // Add header
+    var newRow = table.insertRow();
+    newRow.className = "bordered";
+    newRow.insertCell().textContent = "Layout";
+    newRow.insertCell().textContent = "Wave climate";
+    newRow.insertCell().textContent = "Location";
+    newRow.insertCell().textContent = "x12";
+    newRow.insertCell().textContent = "x13";
+
     var layouts = config.layouts;
     var wave_climates = config.wave_climates;
     for (var i = 0; i < layouts.length; i++) {
@@ -261,8 +272,7 @@ function redraw() {
       for (var j = 0; j < wave_climates.length; j++) {
         for (var k = 0; k < instruments.length; k++) {
           var newRow = table.insertRow();
-          if (j === 0 & k === 0) {
-            newRow.className = "bordered";
+          if (k === 0) {
             newRow.insertCell().textContent = layouts[i].name;
           } else {
             newRow.insertCell().textContent = "";
@@ -273,6 +283,11 @@ function redraw() {
             newRow.insertCell().textContent = "";
           }
           newRow.insertCell().textContent = instruments[k].location;
+          // Add empty row after each layout
+          if (k === instruments.length - 1) {
+            var newRow = table.insertRow();
+            newRow.insertCell().textContent = "\u00A0";
+          }
         }
       }
     }
