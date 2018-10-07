@@ -10,7 +10,7 @@ function redraw() {
   // Remove existing sketch
   removeByTag('svg')
 
-  var canvas_w = window.innerWidth - 500;
+  var canvas_w = window.innerWidth * 0.6;
   var canvas_h = canvas_w * 0.2;
 
   // Create canvas
@@ -326,6 +326,7 @@ function redraw() {
     }
 
     var newRow = table.insertRow();
+    newRow.className = "bordered";
     newRow.insertCell().textContent = "Prototype";
     newRow.insertCell().textContent = "Model";
   }

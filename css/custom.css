@@ -61,6 +61,10 @@ hr {
   padding: 0 15px 0 15px;
 }
 
+#currentSetupTable td {
+  padding: 0 15px 0 15px;
+}
+
 tr.bordered td {
   border-bottom: 1px solid black;
 }
