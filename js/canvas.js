@@ -253,8 +253,8 @@ function redraw() {
 
   function createTable() {
     // Remove content from existing table
-    document.getElementById("probeTable").innerHTML = ""
-    var table = document.getElementById("probeTable")
+    document.getElementById("probeTable").innerHTML = "";
+    var table = document.getElementById("probeTable");
 
     // Add header
     var newRow = table.insertRow();
@@ -302,6 +302,30 @@ function redraw() {
         }
       }
     }
+
+    // Remove content from existing table
+    document.getElementById("currentSetupTable").innerHTML = "";
+    var table = document.getElementById("currentSetupTable");
+
+    var currentLayoutId = document.getElementById("setupLayout").value;
+    var layouts = config.layouts;
+    for (var i = 0; i < layouts.length; i++) {
+      if (layouts[i].id === currentLayoutId) {
+        currentLayout = layouts[i];
+        break;
+      }
+    }
+
+    var currentWaveClimateId = document.getElementById("setupWaveClimate").value;
+    var wave_climates = config.wave_climates;
+    for (var i = 0; i < wave_climates.length; i++) {
+      if (wave_climates[i].name === currentWaveClimateId) {
+        currentWaveClimateId = wave_climates[i];
+        break;
+      }
+    }
+
+
   }
 
   createTable();
