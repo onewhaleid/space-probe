@@ -304,8 +304,8 @@ function redraw() {
     }
 
     // Remove content from existing table
-    document.getElementById("currentSetupTable").innerHTML = "";
-    var table = document.getElementById("currentSetupTable");
+    document.getElementById("protoTable").innerHTML = "";
+    var table = document.getElementById("protoTable");
 
     var currentLayoutId = document.getElementById("setupLayout").value;
     var layouts = config.layouts;
@@ -320,15 +320,36 @@ function redraw() {
     var wave_climates = config.wave_climates;
     for (var i = 0; i < wave_climates.length; i++) {
       if (wave_climates[i].name === currentWaveClimateId) {
-        currentWaveClimateId = wave_climates[i];
+        currentWaveClimate = wave_climates[i];
         break;
       }
     }
 
-    var newRow = table.insertRow();
-    newRow.className = "bordered";
-    newRow.insertCell().textContent = "Prototype";
-    newRow.insertCell().textContent = "Model";
+    var instruments = currentLayout.instruments;
+    var n = instruments.length;
+
+    var headerRow = table.insertRow();
+    var depthRow = table.insertRow();
+    var hsRow = table.insertRow();
+    var periodRow = table.insertRow();
+    headerRow.className = "bordered";
+
+    headerRow.insertCell().innerHTML = "";
+    depthRow.insertCell().innerHTML = "Depth (m)";
+    hsRow.insertCell().innerHTML = "Hs (m)";
+    periodRow.insertCell().innerHTML = "Tp (s)";
+
+    for (var i = 0; i < n; i++) {
+      var proto_elev = instruments[i].proto_elev;
+      var WL = currentWaveClimate.WL;
+      var Hs = currentWaveClimate.Hs;
+      var Tp = currentWaveClimate.Tp;
+
+      headerRow.insertCell().innerHTML = instruments[i].location;
+      depthRow.insertCell().innerHTML = WL - proto_elev;
+      hsRow.insertCell().innerHTML = Hs;
+      periodRow.insertCell().innerHTML = Tp;
+    }
   }
 
   createTable();
