@@ -503,11 +503,13 @@ function mansardFunkeSpacing(T, d) {
   x.x_i1 = Lp / 5;
   x.x_i2 = Lp * 3 / 10;
   x.x_13 = (x.x_i1 + x.x_i2) / 2;
+  x.Lp = Lp;
 
   x.x_12 = Math.round(x.x_12 * 1000) / 1000;
   x.x_13 = Math.round(x.x_13 * 1000) / 1000;
   x.x_i1 = Math.round(x.x_i1 * 1000) / 1000;
   x.x_i2 = Math.round(x.x_i2 * 1000) / 1000;
+  x.Lp = Math.round(x.Lp * 1000) / 1000;
 
   return x;
 

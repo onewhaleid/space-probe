@@ -342,23 +342,27 @@ function redraw() {
     var proto_depth_row = proto_table.insertRow();
     var proto_hs_row = proto_table.insertRow();
     var proto_period_row = proto_table.insertRow();
+    var proto_wavelength_row = proto_table.insertRow();
     proto_header_row.className = "bordered";
 
     var model_header_row = model_table.insertRow();
     var model_depth_row = model_table.insertRow();
     var model_hs_row = model_table.insertRow();
     var model_period_row = model_table.insertRow();
+    var model_wavelength_row = model_table.insertRow();
     model_header_row.className = "bordered";
 
     proto_header_row.insertCell().innerHTML = "";
     proto_depth_row.insertCell().innerHTML = "Depth (m)";
     proto_hs_row.insertCell().innerHTML = "Hs (m)";
     proto_period_row.insertCell().innerHTML = "Tp (s)";
+    proto_wavelength_row.insertCell().innerHTML = "Lp (m)";
 
     model_header_row.insertCell().innerHTML = "";
     model_depth_row.insertCell().innerHTML = "Depth (m)";
     model_hs_row.insertCell().innerHTML = "Hs (m)";
     model_period_row.insertCell().innerHTML = "Tp (s)";
+    model_wavelength_row.insertCell().innerHTML = "Lp (m)";
 
     for (var i = 0; i < n; i++) {
       var length_scale = config.scale;
@@ -368,15 +372,22 @@ function redraw() {
       var proto_Hs = wave_climate.Hs;
       var proto_Tp = wave_climate.Tp;
 
+      var proto_d = proto_WL - proto_elev;
+
+      proto_spacing = mansardFunkeSpacing(proto_Tp, proto_d)
+      var proto_Lp = proto_spacing.Lp;
+
       proto_header_row.insertCell().innerHTML = instruments[i].location, 1;
-      proto_depth_row.insertCell().innerHTML = round(proto_WL - proto_elev, 1);
+      proto_depth_row.insertCell().innerHTML = round(proto_d, 1);
       proto_hs_row.insertCell().innerHTML = round(proto_Hs, 1);
       proto_period_row.insertCell().innerHTML = round(proto_Tp, 1);
+      proto_wavelength_row.insertCell().innerHTML = round(proto_Lp, 1);
 
       model_header_row.insertCell().innerHTML = instruments[i].location;
-      model_depth_row.insertCell().innerHTML = round((proto_WL - proto_elev) / length_scale, 3);
+      model_depth_row.insertCell().innerHTML = round(proto_d / length_scale, 3);
       model_hs_row.insertCell().innerHTML = round(proto_Hs / length_scale, 3);
       model_period_row.insertCell().innerHTML = round(proto_Tp / time_scale, 2);
+      model_wavelength_row.insertCell().innerHTML = round(proto_Lp / length_scale, 3);
     }
   }
 
