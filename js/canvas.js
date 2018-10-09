@@ -330,6 +330,10 @@ function redraw() {
       }
     }
 
+    function round(x, n) {
+      return Math.round(x * 10 ** n) / 10 ** n
+    }
+
     // Get current instruments
     var instruments = currentLayout.instruments;
     var n = instruments.length;
@@ -340,27 +344,44 @@ function redraw() {
     var proto_period_row = proto_table.insertRow();
     proto_header_row.className = "bordered";
 
+    var model_header_row = model_table.insertRow();
+    var model_depth_row = model_table.insertRow();
+    var model_hs_row = model_table.insertRow();
+    var model_period_row = model_table.insertRow();
+    model_header_row.className = "bordered";
+
     proto_header_row.insertCell().innerHTML = "";
     proto_depth_row.insertCell().innerHTML = "Depth (m)";
     proto_hs_row.insertCell().innerHTML = "Hs (m)";
     proto_period_row.insertCell().innerHTML = "Tp (s)";
 
+    model_header_row.insertCell().innerHTML = "";
+    model_depth_row.insertCell().innerHTML = "Depth (m)";
+    model_hs_row.insertCell().innerHTML = "Hs (m)";
+    model_period_row.insertCell().innerHTML = "Tp (s)";
+
     for (var i = 0; i < n; i++) {
+      var length_scale = config.scale;
+      var time_scale = config.scale ** (1 / 2);
       var proto_elev = instruments[i].proto_elev;
       var proto_WL = wave_climate.WL;
       var proto_Hs = wave_climate.Hs;
       var proto_Tp = wave_climate.Tp;
 
-      proto_header_row.insertCell().innerHTML = instruments[i].location;
-      proto_depth_row.insertCell().innerHTML = proto_WL - proto_elev;
-      proto_hs_row.insertCell().innerHTML = proto_Hs;
-      proto_period_row.insertCell().innerHTML = proto_Tp;
+      proto_header_row.insertCell().innerHTML = instruments[i].location, 1;
+      proto_depth_row.insertCell().innerHTML = round(proto_WL - proto_elev, 1);
+      proto_hs_row.insertCell().innerHTML = round(proto_Hs, 1);
+      proto_period_row.insertCell().innerHTML = round(proto_Tp, 1);
+
+      model_header_row.insertCell().innerHTML = instruments[i].location;
+      model_depth_row.insertCell().innerHTML = round((proto_WL - proto_elev) / length_scale, 3);
+      model_hs_row.insertCell().innerHTML = round(proto_Hs / length_scale, 3);
+      model_period_row.insertCell().innerHTML = round(proto_Tp / time_scale, 2);
     }
   }
 
   createTable();
   resizeAccordions();
-
 
 }
 
