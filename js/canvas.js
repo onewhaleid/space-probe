@@ -5,6 +5,30 @@ function removeByTag(tag_name) {
   }
 }
 
+function getCurrentLayout() {
+  var current_layout_id = document.getElementById("setupLayout").value;
+  var layouts = config.layouts;
+  for (var i = 0; i < layouts.length; i++) {
+    if (layouts[i].id === current_layout_id) {
+      current_layout = layouts[i];
+      break;
+    }
+  }
+  return current_layout;
+}
+
+function getCurrentWaveClimate() {
+  var current_wave_climate_id = document.getElementById("setupWaveClimate").value;
+  var wave_climates = config.wave_climates;
+  for (var i = 0; i < wave_climates.length; i++) {
+    if (wave_climates[i].name === current_wave_climate_id) {
+      current_wave_climate = wave_climates[i];
+      break;
+    }
+  }
+  return current_wave_climate;
+}
+
 
 function redraw() {
   // Remove existing sketch
@@ -312,25 +336,9 @@ function redraw() {
     document.getElementById("modelTable").innerHTML = "";
     var model_table = document.getElementById("modelTable");
 
-    // Get current layout
-    var current_layout_id = document.getElementById("setupLayout").value;
-    var layouts = config.layouts;
-    for (var i = 0; i < layouts.length; i++) {
-      if (layouts[i].id === current_layout_id) {
-        current_layout = layouts[i];
-        break;
-      }
-    }
-
-    // Get current wave climate
-    var wave_climate_id = document.getElementById("setupWaveClimate").value;
-    var wave_climates = config.wave_climates;
-    for (var i = 0; i < wave_climates.length; i++) {
-      if (wave_climates[i].name === wave_climate_id) {
-        wave_climate = wave_climates[i];
-        break;
-      }
-    }
+    // Get current layout and wave climate
+    current_layout = getCurrentLayout();
+    current_wave_climate = getCurrentWaveClimate();
 
     function round(x, n) {
       return Math.round(x * 10 ** n) / 10 ** n
@@ -370,9 +378,9 @@ function redraw() {
       var length_scale = config.scale;
       var time_scale = config.scale ** (1 / 2);
       var proto_elev = instruments[i].proto_elev;
-      var proto_WL = wave_climate.WL;
-      var proto_Hs = wave_climate.Hs;
-      var proto_Tp = wave_climate.Tp;
+      var proto_WL = current_wave_climate.WL;
+      var proto_Hs = current_wave_climate.Hs;
+      var proto_Tp = current_wave_climate.Tp;
 
       var proto_d = proto_WL - proto_elev;
 
