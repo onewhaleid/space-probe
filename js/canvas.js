@@ -387,7 +387,7 @@ function redraw() {
       model_depth_row.insertCell().innerHTML = round(proto_d / length_scale, 3);
       model_hs_row.insertCell().innerHTML = round(proto_Hs / length_scale, 3);
       model_period_row.insertCell().innerHTML = round(proto_Tp / time_scale, 2);
-      model_wavelength_row.insertCell().innerHTML = round(proto_Lp / length_scale, 3);
+      model_wavelength_row.insertCell().innerHTML = round(proto_Lp / length_scale, 1);
     }
   }
 
