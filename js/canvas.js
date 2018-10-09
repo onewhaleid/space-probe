@@ -116,6 +116,8 @@ function redraw() {
     [x_max, 0],
   ];
 
+
+
   var bathy_x_min = Math.min.apply(null, bathy_x_values);
   var bathy_x_max = Math.max.apply(null, bathy_x_values);
   var bathy_y_min = Math.min.apply(null, bathy_y_values);
@@ -311,11 +313,11 @@ function redraw() {
     var model_table = document.getElementById("modelTable");
 
     // Get current layout
-    var currentLayoutId = document.getElementById("setupLayout").value;
+    var current_layout_id = document.getElementById("setupLayout").value;
     var layouts = config.layouts;
     for (var i = 0; i < layouts.length; i++) {
-      if (layouts[i].id === currentLayoutId) {
-        currentLayout = layouts[i];
+      if (layouts[i].id === current_layout_id) {
+        current_layout = layouts[i];
         break;
       }
     }
@@ -335,7 +337,7 @@ function redraw() {
     }
 
     // Get current instruments
-    var instruments = currentLayout.instruments;
+    var instruments = current_layout.instruments;
     var n = instruments.length;
 
     var proto_header_row = proto_table.insertRow();
