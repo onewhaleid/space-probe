@@ -303,10 +303,14 @@ function redraw() {
       }
     }
 
-    // Remove content from existing proto_table
+    // Remove content from existing proto and model tables
     document.getElementById("protoTable").innerHTML = "";
     var proto_table = document.getElementById("protoTable");
 
+    document.getElementById("modelTable").innerHTML = "";
+    var model_table = document.getElementById("modelTable");
+
+    // Get current layout
     var currentLayoutId = document.getElementById("setupLayout").value;
     var layouts = config.layouts;
     for (var i = 0; i < layouts.length; i++) {
@@ -316,6 +320,7 @@ function redraw() {
       }
     }
 
+    // Get current wave climate
     var wave_climate_id = document.getElementById("setupWaveClimate").value;
     var wave_climates = config.wave_climates;
     for (var i = 0; i < wave_climates.length; i++) {
@@ -325,30 +330,31 @@ function redraw() {
       }
     }
 
+    // Get current instruments
     var instruments = currentLayout.instruments;
     var n = instruments.length;
 
-    var header_row = proto_table.insertRow();
-    var depth_row = proto_table.insertRow();
-    var hs_row = proto_table.insertRow();
-    var period_row = proto_table.insertRow();
-    header_row.className = "bordered";
+    var proto_header_row = proto_table.insertRow();
+    var proto_depth_row = proto_table.insertRow();
+    var proto_hs_row = proto_table.insertRow();
+    var proto_period_row = proto_table.insertRow();
+    proto_header_row.className = "bordered";
 
-    header_row.insertCell().innerHTML = "";
-    depth_row.insertCell().innerHTML = "Depth (m)";
-    hs_row.insertCell().innerHTML = "Hs (m)";
-    period_row.insertCell().innerHTML = "Tp (s)";
+    proto_header_row.insertCell().innerHTML = "";
+    proto_depth_row.insertCell().innerHTML = "Depth (m)";
+    proto_hs_row.insertCell().innerHTML = "Hs (m)";
+    proto_period_row.insertCell().innerHTML = "Tp (s)";
 
     for (var i = 0; i < n; i++) {
       var proto_elev = instruments[i].proto_elev;
-      var WL = wave_climate.WL;
-      var Hs = wave_climate.Hs;
-      var Tp = wave_climate.Tp;
+      var proto_WL = wave_climate.WL;
+      var proto_Hs = wave_climate.Hs;
+      var proto_Tp = wave_climate.Tp;
 
-      header_row.insertCell().innerHTML = instruments[i].location;
-      depth_row.insertCell().innerHTML = WL - proto_elev;
-      hs_row.insertCell().innerHTML = Hs;
-      period_row.insertCell().innerHTML = Tp;
+      proto_header_row.insertCell().innerHTML = instruments[i].location;
+      proto_depth_row.insertCell().innerHTML = proto_WL - proto_elev;
+      proto_hs_row.insertCell().innerHTML = proto_Hs;
+      proto_period_row.insertCell().innerHTML = proto_Tp;
     }
   }
 
