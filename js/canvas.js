@@ -85,16 +85,20 @@ function redraw() {
   current_layout = getCurrentLayout();
   current_wave_climate = getCurrentWaveClimate();
 
+  // Get Froude scaling factors
+  var length_scale = config.scale;
+  var time_scale = config.scale ** (1 / 2);
+
   // Get selected setup values
   var Hs_proto = current_wave_climate.Hs;
   var Tp_proto = current_wave_climate.Tp;
   var WL_proto = current_wave_climate.WL;
   var instruments = current_layout.instruments;
 
-  var base_elev_model = config.base_elevation / config.scale;
-  var WL_model = WL_proto / config.scale;
-  var Hs_model = Hs_proto / config.scale;
-  var Tp_model = Tp_proto / config.scale ** (1 / 2);
+  var base_elev_model = config.base_elevation / length_scale;
+  var WL_model = WL_proto / length_scale;
+  var Hs_model = Hs_proto / length_scale;
+  var Tp_model = Tp_proto / time_scale;
 
   var bathy = config.bathy;
 
@@ -126,7 +130,12 @@ function redraw() {
   // Update bathy definition in config
   config.bathy = bathy;
 
-  var water = [
+  var bathy_x_min = Math.min.apply(null, bathy_x_values);
+  var bathy_x_max = Math.max.apply(null, bathy_x_values);
+  var bathy_y_min = Math.min.apply(null, bathy_y_values);
+  var bathy_y_max = Math.max.apply(null, bathy_y_values);
+
+  var water_constant = [
     [0, 0],
     [0, WL_model - base_elev_model],
     [x_max, WL_model - base_elev_model],
@@ -134,11 +143,33 @@ function redraw() {
   ];
 
   // Create wavey water surface
+  var n_points = 1000;
+  var dx = x_max / n_points;
+  var water_variable = [
+    [0, 0]
+  ];
 
-  var bathy_x_min = Math.min.apply(null, bathy_x_values);
-  var bathy_x_max = Math.max.apply(null, bathy_x_values);
-  var bathy_y_min = Math.min.apply(null, bathy_y_values);
-  var bathy_y_max = Math.max.apply(null, bathy_y_values);
+  for (var i = 0; i < n_points; i++) {
+    var x = dx * i;
+
+    var base_elev_model = config.base_elevation / length_scale;
+    var y_model = -d3.scaleLinear()
+      .domain(bathy_x_values)
+      .range(bathy_y_values)(x) - base_elev_model;
+    var WL_model = current_wave_climate.WL / length_scale;
+    var d_model = y_model + WL_model;
+    var T_model = current_wave_climate.Tp / time_scale;
+    var H_model = current_wave_climate.Hs / length_scale;
+
+    // Calculate local wavelength
+    var Lp_model = huntWavelength(T_model, d_model);
+    var eta_model = H_model * Math.cos((2 * Math.PI) / Lp_model * x);
+
+    water_variable.push([x, WL_model - base_elev_model + eta_model]);
+  }
+
+  // Close polygon
+  water_variable.push([x, 0]);
 
   // Set wave direction
   var rtl = config.rtl;
@@ -156,7 +187,7 @@ function redraw() {
     .style("stroke", "none")
     .style("fill", "#8198e0")
     .attr("id", "water")
-    .attr("points", toSvgUnits(water));
+    .attr("points", toSvgUnits(water_variable));
 
   // Draw bathy
   canvas.append("polyline")
@@ -167,9 +198,9 @@ function redraw() {
 
   // Get depths of instruments
   for (var i = 0; i < instruments.length; i++) {
-    var y_model = instruments[i].proto_elev / config.scale - base_elev_model;
-    var d_model = -instruments[i].proto_elev / config.scale + WL_model;
-    var elev_model = instruments[i].proto_elev / config.scale;
+    var y_model = instruments[i].proto_elev / length_scale - base_elev_model;
+    var d_model = -instruments[i].proto_elev / length_scale + WL_model;
+    var elev_model = instruments[i].proto_elev / length_scale;
     var mf_spacing = mansardFunkeSpacing(Tp_model, d_model);
     var x_p1 = bathyInterp(config.bathy, y_model);
     var x_p2 = x_p1 + mf_spacing.x_12;
@@ -306,8 +337,8 @@ function redraw() {
           // Calculate probe spacing
           var d_proto = wave_climates[j].WL - instruments[k].proto_elev;
           var Tp_proto = wave_climates[j].Tp;
-          var d_model = d_proto / config.scale;
-          var Tp_model = Tp_proto / config.scale ** (1 / 2);
+          var d_model = d_proto / length_scale;
+          var Tp_model = Tp_proto / time_scale;
           var mf_spacing = mansardFunkeSpacing(Tp_model, d_model);
 
           newRow.insertCell().textContent = mf_spacing.x_12;
@@ -364,8 +395,6 @@ function redraw() {
     model_wavelength_row.insertCell().innerHTML = "Lp (m)";
 
     for (var i = 0; i < n; i++) {
-      var length_scale = config.scale;
-      var time_scale = config.scale ** (1 / 2);
       var proto_elev = instruments[i].proto_elev;
       var proto_WL = current_wave_climate.WL;
       var proto_Hs = current_wave_climate.Hs;
