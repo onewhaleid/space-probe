@@ -81,22 +81,15 @@ function redraw() {
     .attr("d", "M 0 0 0 12 18 12 18 0")
     .style("fill", "black");
 
-  // Get selected setup values
-  var wave_climate_name = document.getElementById('setupWaveClimate').value
-  for (var i = 0; i < config.wave_climates.length; i++) {
-    if (config.wave_climates[i].name === wave_climate_name) {
-      var Hs_proto = config.wave_climates[i].Hs;
-      var Tp_proto = config.wave_climates[i].Tp;
-      var WL_proto = config.wave_climates[i].WL;
-    }
-  }
+  // Get current layout and wave climate
+  current_layout = getCurrentLayout();
+  current_wave_climate = getCurrentWaveClimate();
 
-  var lyt_id = document.getElementById('setupLayout').value
-  for (var i = 0; i < config.layouts.length; i++) {
-    if (config.layouts[i].id === lyt_id) {
-      var instruments = config.layouts[i].instruments;
-    }
-  }
+  // Get selected setup values
+  var Hs_proto = current_wave_climate.Hs;
+  var Tp_proto = current_wave_climate.Tp;
+  var WL_proto = current_wave_climate.WL;
+  var instruments = current_layout.instruments;
 
   var base_elev_model = config.base_elevation / config.scale;
   var WL_model = WL_proto / config.scale;
@@ -140,7 +133,7 @@ function redraw() {
     [x_max, 0],
   ];
 
-
+  // Create wavey water surface
 
   var bathy_x_min = Math.min.apply(null, bathy_x_values);
   var bathy_x_max = Math.max.apply(null, bathy_x_values);
@@ -335,10 +328,6 @@ function redraw() {
 
     document.getElementById("modelTable").innerHTML = "";
     var model_table = document.getElementById("modelTable");
-
-    // Get current layout and wave climate
-    current_layout = getCurrentLayout();
-    current_wave_climate = getCurrentWaveClimate();
 
     function round(x, n) {
       return Math.round(x * 10 ** n) / 10 ** n
